@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"name": "public",
+			"path": "../../public"
+		},
+		{
+			"name": "src",
+			"path": ".."
+		},
+		{
+			"name": "cyn.github.io",
+			"path": "../../../../coding/cyn.github.io"
+		}
+	],
+	"settings": {}
+}
