@@ -67,7 +67,7 @@ const ReceiptItem = ({ item, delay }) => {
         <div style={{ fontFamily: "'Courier New', monospace", fontSize: 12, color: "#888", marginTop: 3 }}>{item.desc}</div>
         <div style={{ display: "flex", gap: 6, marginTop: 6, flexWrap: "wrap" }}>
           {item.tags.map((tag) => (
-            <span key={tag} style={{ fontFamily: "'Courier New', monospace", fontSize: 10, color: "#6a9a3a", border: "1px solid rgba(141,184,96,0.3)", padding: "2px 8px", borderRadius: 2, textTransform: "uppercase" }}>{tag}</span>
+            <span key={tag} style={{ fontFamily: "var(--font-display)", fontSize: 10, color: "#6a9a3a", border: "1px solid rgba(141,184,96,0.3)", padding: "2px 8px", borderRadius: 2, textTransform: "uppercase" }}>{tag}</span>
           ))}
         </div>
       </div>
@@ -96,9 +96,9 @@ export default function ProjectsPage({ onBack }) {
             <div style={{ textAlign: "center", marginBottom: 8 }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 8 }}>
                 <img src={images.sweet} alt="" style={{ width: 28, height: 28, objectFit: "contain" }} />
-                <span style={{ fontFamily: "'Courier New', monospace", fontSize: 22, fontWeight: 700, color: "#333", letterSpacing: 3, textTransform: "uppercase" }}>Project Receipt</span>
+                <span style={{ fontFamily: "var(--font-display)", fontSize: 22, fontWeight: 700, color: "#333", letterSpacing: 3, textTransform: "uppercase" }}>Project Receipt</span>
               </div>
-              <div style={{ fontFamily: "'Courier New', monospace", fontSize: 11, color: "#999", letterSpacing: 1 }}>green grapes personal web</div>
+              <div style={{ fontFamily: "'Courier New', monospace", fontSize: 11, color: "#999", letterSpacing: 1 }}>Design and Development</div>
               <div style={{ fontFamily: "'Courier New', monospace", fontSize: 11, color: "#999", marginTop: 2 }}>--------------------------------</div>
             </div>
 
@@ -127,22 +127,60 @@ export default function ProjectsPage({ onBack }) {
                 <div style={{ display: "flex", justifyContent: "space-between", color: "#666", marginBottom: 4 }}><span>SUBTOTAL ({projects.length} items)</span><span>${subtotal.toFixed(2)}</span></div>
                 <div style={{ display: "flex", justifyContent: "space-between", color: "#666", marginBottom: 4 }}><span>TAX</span><span>my sleep lol</span></div>
                 <DottedLine />
-                <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: 16, color: "#333", padding: "4px 0" }}><span>TOTAL</span><span>4 ROBUX</span></div>
+                <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 600, fontSize: 16, color: "#333", padding: "4px 0" }}><span>TOTAL</span><span>4 green grapes</span></div>
               </div>
             </FadeIn>
 
             <DottedLine />
-            <FadeIn delay={300 + projects.length * 120 + 200}>
-              <div style={{ textAlign: "center", marginTop: 12 }}>
+            <FadeIn delay={300 + projects.length * 120 + 400}>
+              <div style={{ textAlign: "center", marginTop: 12, marginBottom: 40 }}>
                 <div style={{ fontFamily: "'Courier New', monospace", fontSize: 14, color: "#333", fontWeight: 700, letterSpacing: 2, marginBottom: 8 }}>THANK YOU FOR SHOPPING!</div>
                 <div style={{ fontFamily: "'Courier New', monospace", fontSize: 11, color: "#999" }}>github.com/cyn4hia</div>
-                <div style={{ fontFamily: "'Courier New', monospace", fontSize: 11, color: "#999", marginTop: 16, letterSpacing: 2 }}>* * * * * * * * * * * *</div>
               </div>
+              <svg
+              width="800"
+              height="200"
+              viewBox="0 0 60 200"
+              style={{
+                position: "absolute",
+                right: -100,
+                top: 10,
+                pointerEvents: "none",
+              }}
+            >
+              {/* barcode */}
+              <rect x="30" y="45" width="2" height="50" rx="0" fill="#000000" />
+              <rect x="40" y="45" width="4" height="50" rx="0" fill="#000000" />
+              <rect x="50" y="45" width="3" height="50" rx="0" fill="#000000" />
+              <rect x="60" y="45" width="6" height="50" rx="0" fill="#000000" />
+              <rect x="70" y="45" width="2" height="50" rx="0" fill="#000000" />
+              <rect x="80" y="45" width="4" height="50" rx="0" fill="#000000" />
+              <rect x="90" y="45" width="7" height="50" rx="0" fill="#000000" />
+              <rect x="100" y="45" width="5" height="50" rx="0" fill="#000000" />
+              <rect x="110" y="45" width="4" height="50" rx="0" fill="#000000" />
+              <rect x="120" y="45" width="3" height="50" rx="0" fill="#000000" />
+              <rect x="130" y="45" width="2" height="50" rx="0" fill="#000000" />
+              <rect x="140" y="45" width="6" height="50" rx="0" fill="#000000" />
+              <rect x="150" y="45" width="2" height="50" rx="0" fill="#000000" />
+              <rect x="160" y="45" width="4" height="50" rx="0" fill="#000000" />
+              <rect x="170" y="45" width="3" height="50" rx="0" fill="#000000" />
+              <rect x="180" y="45" width="2" height="50" rx="0" fill="#000000" />
+              <rect x="185" y="45" width="8" height="50" rx="0" fill="#000000" />
+              <rect x="200" y="45" width="3" height="50" rx="0" fill="#000000" />
+              <rect x="210" y="45" width="2" height="50" rx="0" fill="#000000" />
+              <rect x="220" y="45" width="2" height="50" rx="0" fill="#000000" />
+              <rect x="230" y="45" width="6" height="50" rx="0" fill="#000000" />
+              <rect x="240" y="45" width="4" height="50" rx="0" fill="#000000" />
+              <rect x="250" y="45" width="5" height="50" rx="0" fill="#000000" />
+              <rect x="260" y="45" width="7" height="50" rx="0" fill="#000000" />
+              <rect x="270" y="45" width="3" height="50" rx="0" fill="#000000" />
+            </svg>
+
             </FadeIn>
             </div>
             <svg width="100%" height="12" style={{ display: "block" }}>
             <defs>
-              <pattern id="zigBot" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+              <pattern id="zigBot" x="0" y="0" width="12" height="20" patternUnits="userSpaceOnUse">
                 <polygon points="0,0 6,12 12,0" fill="#fff" />
               </pattern>
             </defs>
