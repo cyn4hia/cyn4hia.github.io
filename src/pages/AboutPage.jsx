@@ -193,9 +193,10 @@ function MatchaGlass() {
       <ellipse cx="108" cy="52" rx="90" ry="12" fill="rgba(240,245,235,0.5)" />
       <ellipse cx="108" cy="52" rx="93" ry="13" fill="rgba(205, 209, 201, 0.5)" />
       {/* straw */}
-      <rect x="130" y="5" width="7" height="240" rx="3" fill="rgba(245,245,240,0.85)" stroke="rgba(210,210,200,0.4)" strokeWidth="0.5" transform="rotate(8, 133, 45)" />
+      <rect x="130" y="5" width="10" height="240" rx="3" fill="rgba(245,245,240,0.85)" stroke="rgba(210,210,200,0.4)" strokeWidth="0.5" transform="rotate(8, 133, 45)" />
       {/* straw hole */}
       <ellipse cx="134" cy="48" rx="8" ry="2" fill="rgba(120,160,80,0.4)" />
+      <ellipse cx="134" cy="48" rx="10" ry="3" fill="rgba(120,160,80,0.4)" />
 
     </svg>
   );
@@ -314,20 +315,7 @@ export default function AboutPage({ onBack }) {
       <div style={{ maxWidth: 600, margin: "0 auto" }}>
         {/* Header */}
         <FadeIn delay={200}>
-          <div style={{ textAlign: "center", marginBottom: 16 }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12 }}>
-              <span
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: 48,
-                  color: "#808080",
-                  fontWeight: 300,
-                }}
-              >
-                Crunchy
-              </span>
-              <img src={images.crunchy} alt="" style={{ width: 55, height: 40, objectFit: "contain" }} />
-            </div>
+          <div style={{ textAlign: "center", marginBottom: 20, marginTop: 50}}>
             <p
               style={{
                 fontFamily: "'DM Sans', sans-serif",

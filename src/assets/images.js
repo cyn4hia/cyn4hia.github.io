@@ -12,6 +12,7 @@ const images = {
   sweet: `${base}images/sweet.png`,
   crunchy: `${base}images/crunchy.png`,
   cold: `${base}images/cold.png`,
+  contact: `${base}images/contact.png`,
 };
 
 export default images;
