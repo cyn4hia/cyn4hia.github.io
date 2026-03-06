@@ -57,7 +57,7 @@ export default function HomePage({ onNavigate }) {
           style={{
             position: "absolute",
             bottom: "77%",
-            left: "35%",
+            left: "37%",
             fontFamily: "var(--font-display)",
             fontSize: 80,
             fontWeight: 300,
@@ -112,7 +112,7 @@ export default function HomePage({ onNavigate }) {
           alt="Grape leaf"
           style={{
             position: "absolute",
-            bottom: "80%",
+            bottom: "79%",
             left: "66%",
             transform: "translateX(-50%)",
             width: 90,
