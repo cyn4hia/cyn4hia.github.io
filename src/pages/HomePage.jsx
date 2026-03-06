@@ -99,7 +99,7 @@ export default function HomePage({ onNavigate }) {
             bottom: "10%",
             left: "50%",
             transform: "translateX(-50%)",
-            width: 650,
+            width: 620,
             height: "auto",
             zIndex: 1,
             animation: "gentle-float 6s ease-in-out infinite",
@@ -236,7 +236,7 @@ export default function HomePage({ onNavigate }) {
         <nav
           style={{
             display: "flex",
-            gap: 80,
+            gap: 50,
             marginTop: 0,
             flexWrap: "wrap",
             justifyContent: "center",
