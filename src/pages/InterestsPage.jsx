@@ -29,6 +29,14 @@ const interests = [
     label: "Design",
     detail: "UI/UX, creative coding, making things look pretty.",
   },
+  {
+    label: "Economics & Tech",
+    detail: "The intersection between economic efficiency and technology",
+  },
+  {
+    label: "Computer Vision",
+    detail: "Interested in Computer Vision research and application",
+  },
 ];
 
 function SliceWedge({ rotation, angle, radius, z, color, bright, isTop, isClickable, shadow, hovered }) {
@@ -138,7 +146,7 @@ function Cake3D({ activeSlice, setActiveSlice }) {
             height: "100%",
             position: "relative",
             transformStyle: "preserve-3d",
-            transform: "rotateX(55deg) rotateZ(-15deg)",
+            transform: "rotateX(52deg) rotateZ(-24deg)",
           }}
         >
           {/* Plate */}
@@ -186,8 +194,8 @@ function Cake3D({ activeSlice, setActiveSlice }) {
           const cx = 170, cy = 120;
           const rx = 140, ry = 82;
           const angleOffset = -45;
-          const a1 = i * sliceAngle + angleOffset + gap / 2;
-          const a2 = (i + 1) * sliceAngle + angleOffset - gap / 2;
+          const a1 = i * sliceAngle + angleOffset + 1/2;
+          const a2 = (i + 1) * sliceAngle + angleOffset - 1/2 ;
           const steps = 30;
           const points = [`${cx},${cy}`];
           for (let s = 0; s <= steps; s++) {
