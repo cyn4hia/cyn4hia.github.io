@@ -180,7 +180,7 @@ function Cake3D({ activeSlice, setActiveSlice }) {
 
       {/* overlay on top */}
       <svg
-        width={340}
+        width={390}
         height={360}
         viewBox="0 0 340 360"
         style={{
@@ -191,8 +191,8 @@ function Cake3D({ activeSlice, setActiveSlice }) {
         }}
       >
         {interests.map((_, i) => {
-          const cx = 170, cy = 120;
-          const rx = 140, ry = 82;
+          const cx = 145, cy = 120;
+          const rx = 185, ry = 112;
           const angleOffset = -45;
           const a1 = i * sliceAngle + angleOffset + 1/2;
           const a2 = (i + 1) * sliceAngle + angleOffset - 1/2 ;
