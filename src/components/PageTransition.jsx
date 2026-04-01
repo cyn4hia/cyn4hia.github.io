@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 
 /**
- * Wraps a page with enter/exit transitions.
- * When `isVisible` becomes true the page fades + slides in;
- * when it becomes false the page fades out then unmounts.
+ * page transitioning
  */
 export default function PageTransition({ isVisible, children }) {
   const [mounted, setMounted] = useState(false);

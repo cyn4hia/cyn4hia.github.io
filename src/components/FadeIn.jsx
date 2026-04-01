@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 
 /**
- * Fades + slides children in after a delay.
- * Useful for staggering content reveals on page load.
+ * fades + slides in after a delay.
  */
 export default function FadeIn({ children, delay = 0, style = {} }) {
   const [visible, setVisible] = useState(false);

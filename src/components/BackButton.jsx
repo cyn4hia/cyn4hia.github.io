@@ -1,8 +1,7 @@
 import { useState } from "react";
 
 /**
- * Circular back arrow fixed in the top-left.
- * Used on every sub-page to return to the landing page.
+ * general back button
  */
 export default function BackButton({ onClick }) {
   const [hovered, setHovered] = useState(false);

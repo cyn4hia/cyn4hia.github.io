@@ -1,7 +1,6 @@
 /**
- * Shared header for sub-pages (Projects, About, Interests).
- * Shows the grape-themed title + subtitle.
- */
+Header
+*/
 export default function PageHeader({ title, subtitle, imgSrc, imgW = 40, imgH = 40 }) {
   return (
     <div style={{ textAlign: "center", marginBottom: 50 }}>

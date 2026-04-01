@@ -40,7 +40,7 @@ const iceCubes = [
   {
     label: "Fun Fact",
     detail: "I have a matcha addiction",
-    subtext: "I can also name all the countries in Africa",
+    subtext: "Specifically obsessed with Marukyu Koyamaen's Isuzu",
     x: 60,
     baseY: 95,
     size: 32,
@@ -51,7 +51,7 @@ const iceCubes = [
   {
     label: "My favorite place to code",
     detail: "On the treadmill of course!",
-    subtext: "Just kidding, I like being cozy while coding",
+    subtext: "Just kidding, I like being cozy while coding (coding in bed is elite)",
     x: -65,
     baseY: 110,
     size: 34,
