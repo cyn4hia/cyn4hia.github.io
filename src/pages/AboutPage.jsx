@@ -18,7 +18,8 @@ const iceCubes = [
   },
   {
     label: "Social Media",
-    detail: "I'm famous!",
+    detail: "Earned over 1 million views across 3 accounts on TikTok",
+    subtext: "Over 1k Followers and 400k views on a gaming account\nOver 1k followers and 400k views on a study motivation account",
     x: 50,
     baseY: 45,
     size: 38,
