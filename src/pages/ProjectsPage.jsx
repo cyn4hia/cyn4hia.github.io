@@ -19,13 +19,6 @@ const projects = [
     link: "https://github.com/cyn4hia",
   },
   {
-    name: "Cook Your Books",
-    desc: "CS 3100 Semester Project (In Progress)",
-    price: 1.26,
-    tags: ["JSON", "Java"],
-    link: null,
-  },
-  {
     name: "Royale High Halo Predictor",
     desc: "Using LLMs to predict ingame price values for Royale High Roblox game (In Progress)",
     price: 4.25,
@@ -38,6 +31,21 @@ const projects = [
     price: 9.25,
     tags: ["JavaScript", "Python"],
     link: "https://github.com/cyn4hia/tft_flashcards",
+  },
+
+  {
+    name: "Impact Chess Website",
+    desc: "Designed website for chess non-profit organization",
+    price: 8.22,
+    tags: ["Squarespace", "Canva"],
+    link: "https://impactchess.org/",
+  },
+  {
+    name: "Princeton Junior Squash Website",
+    desc: "Redesigned website for Princeton Junior Squash for more accessibility. Website helped reach new students for the squash program.",
+    price: 1.24,
+    tags: ["Squarespace", "Canva"],
+    link: "https://www.princetonjuniorsquash.com/",
   },
 ];
 
