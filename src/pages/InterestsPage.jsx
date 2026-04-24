@@ -101,13 +101,13 @@ function CakeSlice({ index, sliceAngle, isActive, isHovered, onClick }) {
       }}
     >
       {/* bot layer */}
-      <SliceWedge rotation={rotation} angle={sliceAngle} radius={120} z={0} color="#8ea873ff" bright={isActive} isClickable={false} />
+      <SliceWedge rotation={rotation} angle={sliceAngle} radius={120} z={0} color="#bcdb9dff" bright={isActive} isClickable={false} />
       {/* frosting middle */}
       <SliceWedge rotation={rotation} angle={sliceAngle} radius={122} z={34} color="#FAF0E0" bright={isActive} isClickable={false} />
       {/* top layer */}
-      <SliceWedge rotation={rotation} angle={sliceAngle} radius={120} z={42} color="#8ea873ff" bright={isActive} isClickable={false} />
+      <SliceWedge rotation={rotation} angle={sliceAngle} radius={120} z={42} color="#bcdb9dff" bright={isActive} isClickable={false} />
       {/* top frost */}
-      <SliceWedge rotation={rotation} angle={sliceAngle} radius={124} z={72} color="#84AA2C" bright={isActive} isTop isClickable hovered={isHovered} />
+      <SliceWedge rotation={rotation} angle={sliceAngle} radius={124} z={72} color="#a7bf74ff" bright={isActive} isTop isClickable hovered={isHovered} />
     </div>
   );
 }

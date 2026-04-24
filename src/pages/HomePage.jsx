@@ -220,6 +220,59 @@ export default function HomePage({ onNavigate }) {
             ⎯
           </p>
         </div>
+
+          {/*neuron */}
+         <div
+          style={{
+            position: "absolute",
+            top: "27%",
+            right: "70%",
+            zIndex: 2,
+            textAlign: "left",
+            opacity: subVis ? 1 : 0,
+            transform: subVis ? "translateY(0)" : "translateY(15px)",
+            transition: "all 0.9s cubic-bezier(0.22,1,0.36,1)",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: 11,
+              color: "var(--text-light)",
+              letterSpacing: 1,
+              marginTop: 1,
+            }}
+          >
+            peek inside my brain!
+          </p>
+        </div>
+
+        <div
+          style={{
+            position: "absolute",
+            top: "30%",
+            right: "69%",
+            zIndex: 2,
+            textAlign: "left",
+            opacity: subVis ? 1 : 0,
+            transform: subVis ? "translateY(0)" : "translateY(15px)",
+            transition: "all 0.9s cubic-bezier(0.22,1,0.36,1)",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: 21,
+              color: "var(--text-light)",
+              letterSpacing: 1,
+              marginTop: 1,
+              transform: "rotateZ(45deg)",
+            }}
+          >
+            ⎯
+          </p>
+        </div>
+
       </div>
       <div style={{ position: "relative" }}>
           <ContactButton           
@@ -230,6 +283,17 @@ export default function HomePage({ onNavigate }) {
             delay={1200}
             imgX={0}
             imgY={20}
+          />
+      </div>
+      <div style={{ position: "relative" }}>
+          <ContactButton           
+            imgSrc={images.contact}
+            imgW={150}
+            imgH={150}
+            onClick={() => window.open("https://cyn4hia.github.io/mind/", "_blank")}
+            delay={1200}
+            imgX={-70}
+            imgY={290}
           />
       </div>
         {/* nav */}
