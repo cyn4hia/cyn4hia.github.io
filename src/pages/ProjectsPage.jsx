@@ -47,6 +47,13 @@ const projects = [
     tags: ["Squarespace", "Canva"],
     link: "https://www.princetonjuniorsquash.com/",
   },
+  {
+    name: "Husky Link",
+    desc: "Interface designed for CS 2484 Semester Project",
+    price: 1.26,
+    tags: ["Prototyping", "Figma"],
+    link: "https://www.figma.com/proto/jqUpEPfLAGt5fU3hCFhBsd/HCI-Final-Project?node-id=10-199&starting-point-node-id=10%3A199&t=oCFsGOpd4XgPCv7R-1",
+  },
 ];
 
 const subtotal = projects.reduce((sum, item) => sum + item.price, 0);
