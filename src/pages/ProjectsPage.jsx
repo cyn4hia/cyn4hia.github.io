@@ -1,6 +1,7 @@
 import { useState } from "react";
 import BackButton from "../components/BackButton";
 import FadeIn from "../components/FadeIn";
+import Bubbles from "../components/Bubbles";
 import images from "../assets/images";
 
 const projects = [
@@ -94,7 +95,8 @@ const ReceiptItem = ({ item, delay }) => {
 
 export default function ProjectsPage({ onBack }) {
   return (
-    <div style={{ minHeight: "100vh", background: "#f5f5f0", padding: "80px 20px 60px" }}>
+    <div style={{ minHeight: "100vh", background: "#f5f5f0", padding: "80px 20px 60px", position: "relative" }}>
+      <Bubbles count={7} />
       <BackButton onClick={onBack} />
       <div style={{ maxWidth: 420, margin: "0 auto" }}>
         <FadeIn delay={100}>

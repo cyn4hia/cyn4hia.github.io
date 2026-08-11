@@ -45,9 +45,9 @@ export default function ContactButton({
           ? hovered
             ? "translateY(-8px) scale(1.05)"
             : "translateY(0) scale(1)"
-          : "translateY(30px) scale(0.95)",
+          : "translateY(34px) scale(0.6)",
         opacity: visible ? 1 : 0,
-        transition: "all 0.5s cubic-bezier(0.22,1,0.36,1)",
+        transition: "all 0.6s cubic-bezier(0.34,1.56,0.64,1)",
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 0 }}>

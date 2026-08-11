@@ -15,9 +15,9 @@ export default function FadeIn({ children, delay = 0, style = {} }) {
     <div
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(25px)",
+        transform: visible ? "translateY(0) scale(1)" : "translateY(24px) scale(0.94)",
         transition:
-          "opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1)",
+          "opacity 0.65s cubic-bezier(0.34,1.56,0.64,1), transform 0.65s cubic-bezier(0.34,1.56,0.64,1)",
         ...style,
       }}
     >

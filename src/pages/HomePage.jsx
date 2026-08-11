@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import NavButton from "../components/NavButton";
+import Bubbles from "../components/Bubbles";
 import images from "../assets/images";
 import ContactButton from "../components/ContactButton";
 
@@ -41,6 +42,7 @@ export default function HomePage({ onNavigate }) {
           overflow: "hidden",
         }}
       >
+      <Bubbles />
       {/* ── title ── */}
       <div
         style={{
@@ -48,8 +50,8 @@ export default function HomePage({ onNavigate }) {
           width: 820,
           height: 600,
           opacity: heroVis ? 1 : 0,
-          transform: heroVis ? "scale(1)" : "scale(0.92)",
-          transition: "all 1.2s cubic-bezier(0.22,1,0.36,1)",
+          transform: heroVis ? "scale(1) translateY(0)" : "scale(0.55) translateY(60px)",
+          transition: "all 0.9s cubic-bezier(0.34,1.56,0.64,1)",
         }}
       >
         {/* left of stem */}
@@ -65,7 +67,8 @@ export default function HomePage({ onNavigate }) {
             lineHeight: 1,
             zIndex: 2,
             opacity: titleVis ? 1 : 0,
-            transition: "opacity 0.8s ease",
+            transform: titleVis ? "translateY(0) scale(1)" : "translateY(26px) scale(0.7)",
+            transition: "all 0.65s cubic-bezier(0.34,1.56,0.64,1)",
           }}
         >
           Cindy
@@ -84,7 +87,8 @@ export default function HomePage({ onNavigate }) {
             lineHeight: 1,
             zIndex: 2,
             opacity: titleVis ? 1 : 0,
-            transition: "opacity 0.8s ease",
+            transform: titleVis ? "translateY(0) scale(1)" : "translateY(26px) scale(0.7)",
+            transition: "all 0.65s cubic-bezier(0.34,1.56,0.64,1) 0.12s",
           }}
         >
           s
@@ -131,8 +135,8 @@ export default function HomePage({ onNavigate }) {
             zIndex: 2,
             textAlign: "left",
             opacity: subVis ? 1 : 0,
-            transform: subVis ? "translateY(0)" : "translateY(15px)",
-            transition: "all 0.9s cubic-bezier(0.22,1,0.36,1)",
+            transform: subVis ? "translateY(0) scale(1)" : "translateY(22px) scale(0.85)",
+            transition: "all 0.7s cubic-bezier(0.34,1.56,0.64,1)",
           }}
         >
           <h2
@@ -155,8 +159,8 @@ export default function HomePage({ onNavigate }) {
             zIndex: 2,
             textAlign: "left",
             opacity: subVis ? 1 : 0,
-            transform: subVis ? "translateY(0)" : "translateY(15px)",
-            transition: "all 0.9s cubic-bezier(0.22,1,0.36,1)",
+            transform: subVis ? "translateY(0) scale(1)" : "translateY(22px) scale(0.85)",
+            transition: "all 0.7s cubic-bezier(0.34,1.56,0.64,1)",
           }}
         >
           <p
@@ -179,8 +183,8 @@ export default function HomePage({ onNavigate }) {
             zIndex: 2,
             textAlign: "left",
             opacity: subVis ? 1 : 0,
-            transform: subVis ? "translateY(0)" : "translateY(15px)",
-            transition: "all 0.9s cubic-bezier(0.22,1,0.36,1)",
+            transform: subVis ? "translateY(0) scale(1)" : "translateY(22px) scale(0.85)",
+            transition: "all 0.7s cubic-bezier(0.34,1.56,0.64,1)",
           }}
         >
           <p
@@ -203,8 +207,8 @@ export default function HomePage({ onNavigate }) {
             zIndex: 2,
             textAlign: "left",
             opacity: subVis ? 1 : 0,
-            transform: subVis ? "translateY(0)" : "translateY(15px)",
-            transition: "all 0.9s cubic-bezier(0.22,1,0.36,1)",
+            transform: subVis ? "translateY(0) scale(1)" : "translateY(22px) scale(0.85)",
+            transition: "all 0.7s cubic-bezier(0.34,1.56,0.64,1)",
           }}
         >
           <p
@@ -230,8 +234,8 @@ export default function HomePage({ onNavigate }) {
             zIndex: 2,
             textAlign: "left",
             opacity: subVis ? 1 : 0,
-            transform: subVis ? "translateY(0)" : "translateY(15px)",
-            transition: "all 0.9s cubic-bezier(0.22,1,0.36,1)",
+            transform: subVis ? "translateY(0) scale(1)" : "translateY(22px) scale(0.85)",
+            transition: "all 0.7s cubic-bezier(0.34,1.56,0.64,1)",
           }}
         >
           <p
@@ -255,8 +259,8 @@ export default function HomePage({ onNavigate }) {
             zIndex: 2,
             textAlign: "left",
             opacity: subVis ? 1 : 0,
-            transform: subVis ? "translateY(0)" : "translateY(15px)",
-            transition: "all 0.9s cubic-bezier(0.22,1,0.36,1)",
+            transform: subVis ? "translateY(0) scale(1)" : "translateY(22px) scale(0.85)",
+            transition: "all 0.7s cubic-bezier(0.34,1.56,0.64,1)",
           }}
         >
           <p

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import BackButton from "../components/BackButton";
 import FadeIn from "../components/FadeIn";
+import Bubbles from "../components/Bubbles";
 import images from "../assets/images";
 
 
@@ -434,8 +435,10 @@ export default function AboutPage({ onBack }) {
         minHeight: "100vh",
         background: "radial-gradient(1000px circle at 50% 0%, #f6f9ef, #ffffff 65%)",
         padding: "80px 40px 60px",
+        position: "relative",
       }}
     >
+      <Bubbles count={7} />
       <BackButton onClick={onBack} />
 
       <div style={{ maxWidth: 600, margin: "0 auto" }}>
@@ -487,8 +490,8 @@ export default function AboutPage({ onBack }) {
         <div
           style={{
             opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0) scale(1)" : "translateY(20px) scale(0.95)",
-            transition: "all 0.8s cubic-bezier(0.22,1,0.36,1)",
+            transform: visible ? "translateY(0) scale(1)" : "translateY(36px) scale(0.78)",
+            transition: "all 0.85s cubic-bezier(0.34,1.56,0.64,1)",
           }}
         >
           <div
