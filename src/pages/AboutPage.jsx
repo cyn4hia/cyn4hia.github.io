@@ -20,8 +20,8 @@ const iceCubes = [
   },
   {
     label: "Social Media",
-    detail: "Earned over 1 million views across 3 accounts on TikTok",
-    subtext: "Over 1k Followers and 400k views on a gaming account\nOver 1k followers and 400k views on a study motivation account",
+    detail: "Reached over 40 million views on TikTok",
+    subtext: "Motion Graphics + editing content! A little hobby of mine",
     x: 30,
     baseY: -2,
     size: 38,
@@ -33,7 +33,7 @@ const iceCubes = [
   {
     label: "Video games",
     detail: "I'm bad at every game I play",
-    subtext: "Extremely hardstuck diamond in Teamfight Tactics",
+    subtext: "But at least I always look good in game!",
     x: -35,
     baseY: 41,
     size: 36,
