@@ -17,7 +17,7 @@ const projects = [
     desc: "Using Meta's Sam3 and OpenCV to segment any 2 UI elements and motion morph from one to the other",
     price: 7.26,
     tags: ["SAM#", "CV", "Motion Graphics"],
-    link: "https://cyn4hia.github.io/leetie",
+    link: null,
   },
   {
     name: "TFT Profile Card",
