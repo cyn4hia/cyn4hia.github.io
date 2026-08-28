@@ -13,18 +13,26 @@ const projects = [
     link: "https://cyn4hia.github.io/",
   },
   {
+    name: "SoftMotion",
+    desc: "Using Meta's Sam3 and OpenCV to segment any 2 UI elements and motion morph from one to the other",
+    price: 7.26,
+    tags: ["SAM#", "CV", "Motion Graphics"],
+    link: "https://cyn4hia.github.io/leetie",
+  },
+  {
     name: "TFT Profile Card",
     desc: "My dynamic TFT history + profile details for my Github README",
     price: 2.26,
     tags: ["Python", "SVG"],
     link: "https://github.com/cyn4hia",
   },
+  
   {
-    name: "Royale High Halo Predictor",
-    desc: "Using LLMs to predict ingame price values for Royale High Roblox game (In Progress)",
-    price: 4.25,
+    name: "Leetie",
+    desc: "Made my own custom algo practice site with fun features",
+    price: 7.26,
     tags: ["React", "Claude API", "JavaScript"],
-    link: null,
+    link: "https://cyn4hia.github.io/leetie",
   },
   {
     name: "TFT Flashcards",
