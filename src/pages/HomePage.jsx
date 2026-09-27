@@ -6,8 +6,16 @@ import MenuCard from "../cafe/ui/MenuCard";
 import FocusPanel from "../cafe/ui/FocusPanel";
 import "../cafe/ui/cafe.css";
 
-const PANEL_SPACE = 440 + 56; // note width + its margin
 const NARROW = 760;
+/* mirrors .cafe-panel in cafe.css: the note is --note-w wide and centred
+   around 68% of the screen width (never closer than 20px to the edge) */
+const NOTE_W = 540;
+const RECEIPT_W = 470;
+const noteBox = (vw, w) => {
+  const width = Math.min(w, vw - 40);
+  const right = Math.max(20, 0.32 * vw - w / 2);
+  return { width, right, free: vw - right - width }; // free: room left of the note
+};
 
 /* if WebGL is unavailable the menu card still gets you everywhere */
 class SceneBoundary extends Component {
@@ -129,10 +137,18 @@ export default function HomePage({ onNavigate, active = true, play = true, onRea
   }, [active, step]);
 
   const narrow = vp.w <= NARROW;
-  const panelInset = useMemo(
-    () => (narrow ? { x: 0, y: Math.round(vp.h * 0.21) } : { x: Math.round(PANEL_SPACE / 2), y: 0 }),
-    [narrow, vp.h]
-  );
+  /* shift the focused item into the free space beside the note, and pull
+     the camera back a touch when that space is tight so it stays in view */
+  const receipt = focused && ITEM_BY_ID[focused]?.content === "receipt";
+  const panelInset = useMemo(() => {
+    if (narrow) return { x: 0, y: Math.round(vp.h * 0.21), zoom: 1 };
+    const note = noteBox(vp.w, receipt ? RECEIPT_W : NOTE_W);
+    return {
+      x: Math.round((note.right + note.width) / 2),
+      y: 0,
+      zoom: Math.min(1.4, Math.max(1, (0.62 * vp.w) / note.free)),
+    };
+  }, [narrow, vp.w, vp.h, receipt]);
 
   const visibleIds = useMemo(() => {
     if (focused || !play) return new Set();

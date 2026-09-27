@@ -167,93 +167,227 @@
   transform: translate(-50%, -50%) rotate(var(--tilt, -2deg)) translateY(0);
 }
 
-/* ── the menu card ───────────────────────────────────────────────── */
+/* ── the café menu: sketched paper, pencil gray + matcha green ───────
+   Everything is sized in em, so the enlarged copy that grows into the
+   middle of the screen on hover is the same card, just bigger. */
 .cafe-menu {
+  --menu-ink: #5e5e5b;
+  --menu-soft: #a3a39e;
+  --menu-green: #6f9140;
+  --menu-paper: #fbfaf5;
+  --menu-hand: "Patrick Hand", "Caveat", cursive;
   position: absolute;
   left: clamp(16px, 4vw, 56px);
   bottom: clamp(16px, 5vh, 48px);
-  width: 272px;
-  padding: 16px 20px 14px;
-  background: var(--cafe-paper);
-  border: 1px solid var(--cafe-line);
-  border-radius: 4px;
-  box-shadow: 0 18px 40px -18px rgba(60, 38, 18, 0.45), 0 2px 6px rgba(60, 38, 18, 0.08);
+  z-index: 1;
+  width: 21em;
+  padding: 1.15em 1.35em 1em;
+  font-size: 15px;
+  color: var(--menu-ink);
   transform: rotate(-1.4deg);
-  transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: opacity 0.25s ease 0.35s, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .cafe-menu.is-hidden {
   opacity: 0;
   transform: rotate(-1.4deg) translateY(24px);
   pointer-events: none;
+  transition-delay: 0s;
 }
-.cafe-menu h2 {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  font-family: var(--cafe-hand);
-  font-weight: 600;
-  font-size: 28px;
-  line-height: 1;
-  color: var(--cafe-ink);
-  padding-bottom: 8px;
-  margin-bottom: 6px;
-  border-bottom: 1.5px solid var(--cafe-ink);
+/* while its enlarged copy is out, the corner card steps aside */
+.cafe-menu.is-expanded {
+  opacity: 0;
+  transition: opacity 0.12s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.cafe-menu h2 span {
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--cafe-ink-soft);
+.cafe-menu-paper {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--menu-paper);
+  /* a slightly wobbly, hand-drawn pencil outline */
+  border: 0.1em solid var(--menu-ink);
+  border-radius: 1.1em 0.35em 0.9em 0.5em / 0.4em 1em 0.45em 1.2em;
+  box-shadow: 0 1.2em 2.4em -1.1em rgba(40, 34, 26, 0.45), 0 0.15em 0.4em rgba(40, 34, 26, 0.08);
 }
-.cafe-menu ul {
+.cafe-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* the doodles are masks, so the pencil colour comes from CSS */
+.cafe-doodle {
+  display: block;
+  background: var(--menu-ink);
+  -webkit-mask: var(--src) center / contain no-repeat;
+  mask: var(--src) center / contain no-repeat;
+}
+.cafe-menu-top {
+  display: grid;
+  grid-template-columns: 3.3em 1fr 3.3em;
+  align-items: end;
+  gap: 0.3em;
+}
+.cafe-menu-logo {
+  margin: 0;
+  font-size: 1em;
+}
+.cafe-doodle--logo {
+  width: 100%;
+  aspect-ratio: 1000 / 762;
+}
+.cafe-doodle--cat {
+  width: 3.1em;
+  aspect-ratio: 620 / 640;
+  margin-bottom: 0.5em;
+  transform: rotate(-8deg);
+}
+.cafe-menu-cup {
+  position: relative;
+  display: block;
+  width: 3.2em;
+  aspect-ratio: 515 / 820;
+  margin-bottom: 0.2em;
+  transform: rotate(6deg);
+}
+.cafe-doodle--cup {
+  position: absolute;
+  inset: 0;
+}
+/* a loose matcha wash below the drink line */
+.cafe-menu-matcha {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 35% 75%, rgba(143, 176, 96, 0.85), transparent 60%),
+    radial-gradient(circle at 70% 62%, rgba(143, 176, 96, 0.6), transparent 55%),
+    rgba(165, 195, 120, 0.55);
+  clip-path: polygon(16% 53%, 30% 51.5%, 50% 54%, 70% 51.5%, 85% 52.5%, 83% 88%, 79% 93%, 60% 95.5%, 35% 95.5%, 22% 93%, 18.5% 88%);
+}
+/* the bunny sits in the bottom-right corner; the lines beside it
+   (.is-by-bunny) stop short to make room */
+.cafe-doodle--bunny {
+  position: absolute;
+  right: 1.05em;
+  bottom: 0.65em;
+  width: 2.9em;
+  aspect-ratio: 449 / 640;
+  transform: rotate(6deg);
+}
+.cafe-menu-list li.is-by-bunny button {
+  padding-right: 3.05em;
+}
+
+.cafe-menu-heading {
+  margin: 0.3em 0 0.25em;
+  text-align: center;
+  font-family: var(--menu-hand);
+  font-size: 1.1em;
+  letter-spacing: 0.06em;
+  color: var(--menu-soft);
+}
+.cafe-menu-list {
   list-style: none;
 }
-.cafe-menu button {
+.cafe-menu-list button {
   display: flex;
   align-items: baseline;
-  gap: 6px;
+  gap: 0.45em;
   width: 100%;
-  padding: 5px 0;
+  padding: 0.18em 0;
   border: 0;
   background: none;
-  cursor: pointer;
-  color: var(--cafe-ink);
+  font: inherit;
+  color: inherit;
   text-align: left;
+  cursor: pointer;
+}
+.cafe-menu-star {
+  display: inline-block;
+  font-size: 0.8em;
+  color: var(--menu-green);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .cafe-menu-name {
-  font-family: var(--font-display);
-  font-size: 19px;
-  font-style: italic;
-  transition: color 0.2s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-family: var(--menu-hand);
+  font-size: 1.3em;
+  line-height: 1.15;
+  transition: color 0.2s ease;
 }
 .cafe-menu-dots {
   flex: 1;
-  border-bottom: 1.5px dotted rgba(58, 46, 37, 0.35);
-  transform: translateY(-4px);
+  min-width: 1em;
+  border-bottom: 0.13em dotted var(--menu-soft);
+  transform: translateY(-0.3em);
 }
 .cafe-menu-dest {
-  font-size: 10.5px;
-  letter-spacing: 1.6px;
-  text-transform: uppercase;
-  color: var(--cafe-ink-soft);
-  transition: color 0.2s ease;
+  font-family: var(--menu-hand);
+  font-size: 1.05em;
+  color: var(--menu-green);
 }
-.cafe-menu button:hover .cafe-menu-name,
-.cafe-menu button:focus-visible .cafe-menu-name,
-.cafe-menu button.is-active .cafe-menu-name {
-  color: var(--cafe-matcha-deep);
-  transform: translateX(3px);
+.cafe-menu-list button:hover .cafe-menu-name,
+.cafe-menu-list button:focus-visible .cafe-menu-name,
+.cafe-menu-list button.is-active .cafe-menu-name {
+  color: var(--menu-green);
 }
-.cafe-menu button:hover .cafe-menu-dest,
-.cafe-menu button.is-active .cafe-menu-dest {
-  color: var(--cafe-matcha-deep);
+.cafe-menu-list button:hover .cafe-menu-star,
+.cafe-menu-list button:focus-visible .cafe-menu-star {
+  transform: rotate(72deg) scale(1.25);
 }
-.cafe-menu button:focus-visible {
-  outline: 2px solid var(--cafe-matcha);
-  outline-offset: 2px;
-  border-radius: 2px;
+.cafe-menu-list button:focus-visible {
+  outline: 0.12em solid var(--menu-green);
+  outline-offset: 0.12em;
+  border-radius: 0.2em;
+}
+
+/* the enlarged copy: parked (invisible) over the corner card, then grown
+   into the middle; MenuCard keeps --from-* pointing at the corner */
+.cafe-menu-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.cafe-menu-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(38, 34, 28, 0.22);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.cafe-menu-stage.is-open .cafe-menu-backdrop {
+  opacity: 1;
+}
+.cafe-menu-stage.is-open.by-tap .cafe-menu-backdrop {
+  pointer-events: auto;
+}
+.cafe-menu--big {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  font-size: clamp(19px, 3.05vh, 28px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(var(--from-x, 0px), var(--from-y, 0px)) scale(var(--from-s, 0.5)) rotate(-1.4deg);
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.15s ease 0.35s,
+    visibility 0s linear 0.5s;
+}
+.cafe-menu-stage.is-open .cafe-menu--big {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(0px, 0px) scale(1) rotate(-0.8deg);
+  transition:
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.1s ease,
+    visibility 0s;
 }
 
 /* ── hint ────────────────────────────────────────────────────────── */
@@ -282,12 +416,15 @@
 
 /* ── focus panel ─────────────────────────────────────────────────── */
 .cafe-panel {
+  /* wide, and centred around 68% of the screen rather than hugging the
+     right edge (HomePage mirrors this maths to frame the 3D item) */
+  --note-w: 540px;
   position: absolute;
   top: 50%;
-  right: clamp(20px, 4vw, 56px);
+  right: max(20px, calc(32vw - var(--note-w) / 2));
   display: flex;
   flex-direction: column;
-  width: min(440px, calc(100vw - 40px));
+  width: min(var(--note-w), calc(100vw - 40px));
   max-height: calc(100vh - 72px);
   padding: 30px 34px 20px;
   background: var(--cafe-paper);
@@ -553,7 +690,7 @@
 
 /* ── projects: the receipt that prints out of the chawan ──────────── */
 .cafe-panel--receipt {
-  width: min(410px, calc(100vw - 40px));
+  --note-w: 470px;
   padding: 0;
   background: none;
   border: 0;
@@ -575,6 +712,10 @@
     clip-path: inset(-40px -40px -70px -40px);
     transform: translateY(-50%) rotate(-1.2deg);
   }
+}
+/* the paper is masked (its own paint layer), so lift the tape over it */
+.cafe-panel--receipt::before {
+  z-index: 1;
 }
 .cafe-panel--receipt .cafe-panel-close {
   top: 16px;
@@ -832,6 +973,11 @@
   .cafe-hint,
   .cafe-sparkle {
     animation: none;
+  }
+  .cafe-menu--big,
+  .cafe-menu-stage.is-open .cafe-menu--big {
+    transition-duration: 0.01s;
+    transition-delay: 0s;
   }
   .cafe-panel,
   .cafe-panel.is-leaving {

@@ -58,7 +58,7 @@ export default function CameraRig({ focusedItem, play, reducedMotion, panelInset
       const [ix, iz] = focusedItem.position;
       goalTarget.set(ix, TABLE.height + (f.look + f.lift) * ITEM_SCALE, iz); // aim at it while lifted
       const narrowFit = Math.max(1, Math.pow(1.1 / aspect, 0.75));
-      const dist = f.dist * ITEM_SCALE * narrowFit;
+      const dist = f.dist * ITEM_SCALE * narrowFit * (panelInset.zoom ?? 1);
       goalPos.set(
         Math.sin(f.azim) * Math.cos(f.elev) * dist,
         Math.sin(f.elev) * dist,
