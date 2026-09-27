@@ -1,20 +1,21 @@
 import { useState, useCallback, useEffect } from "react";
 import PageTransition from "./components/PageTransition";
 import HomePage from "./pages/HomePage";
-import ProjectsPage from "./pages/ProjectsPage";
-import AboutPage from "./pages/AboutPage";
-import InterestsPage from "./pages/InterestsPage";
 import ContactPage from "./pages/ContactPage";
 import { imagesReady } from "./assets/preload";
+import { loadCafeScene } from "./cafe/loadScene";
 
-/* tiny grape-pulse splash shown while all images finish decoding */
+/* start fetching the 3D café right away, while the splash is up */
+loadCafeScene();
+
+/* matcha-dot splash shown while images decode and the café warms up */
 function Splash({ done }) {
   return (
     <div
       style={{
         position: "fixed",
         inset: 0,
-        background: "#fff",
+        background: "#f1e7d8",
         zIndex: 9999,
         display: "flex",
         flexDirection: "column",
@@ -23,7 +24,7 @@ function Splash({ done }) {
         gap: 18,
         opacity: done ? 0 : 1,
         pointerEvents: done ? "none" : "auto",
-        transition: "opacity 0.5s ease",
+        transition: "opacity 0.7s ease",
       }}
     >
       <div style={{ display: "flex", gap: 10 }}>
@@ -34,7 +35,7 @@ function Splash({ done }) {
               width: 14,
               height: 14,
               borderRadius: "50%",
-              background: "radial-gradient(circle at 35% 30%, #c8e39b, #8db860 60%, #6a9a3a)",
+              background: "radial-gradient(circle at 35% 30%, #c3d99a, #7fa24a 60%, #587a2e)",
               animation: `splash-bob 1s ease-in-out ${i * 0.15}s infinite`,
             }}
           />
@@ -42,14 +43,12 @@ function Splash({ done }) {
       </div>
       <span
         style={{
-          fontFamily: "var(--font-body)",
-          fontSize: 12,
-          letterSpacing: 3,
-          color: "#b5cc8e",
-          textTransform: "lowercase",
+          fontFamily: "'Caveat', cursive",
+          fontSize: 24,
+          color: "#8a7a66",
         }}
       >
-        ripening…
+        brewing…
       </span>
       <style>{`
         @keyframes splash-bob {
@@ -63,46 +62,41 @@ function Splash({ done }) {
 
 /**
  * Root app component.
- * Manages which page is active and renders transitions.
- * Holds a splash until every image is fetched + decoded (max 4s),
- * so no page ever paints with half-loaded art.
+ * Manages which page is active and renders transitions. The home café is
+ * mounted behind the splash so its 3D scene can compile; the splash lifts
+ * once images are decoded and the first frames are drawn (max 8s).
  */
 export default function App() {
   const [page, setPage] = useState("home");
-  const [ready, setReady] = useState(false);
+  const [imagesDone, setImagesDone] = useState(false);
+  const [sceneDone, setSceneDone] = useState(false);
+  const [timedOut, setTimedOut] = useState(false);
   const navigate = useCallback((p) => setPage(p), []);
   const goHome = useCallback(() => setPage("home"), []);
+  const onSceneReady = useCallback(() => setSceneDone(true), []);
 
   useEffect(() => {
     let alive = true;
-    const timeout = new Promise((res) => setTimeout(res, 4000));
-    Promise.race([imagesReady, timeout]).then(() => {
-      if (alive) setReady(true);
+    const imageCap = new Promise((res) => setTimeout(res, 4000));
+    Promise.race([imagesReady, imageCap]).then(() => {
+      if (alive) setImagesDone(true);
     });
+    const t = setTimeout(() => alive && setTimedOut(true), 8000);
     return () => {
       alive = false;
+      clearTimeout(t);
     };
   }, []);
+
+  const ready = (imagesDone && sceneDone) || timedOut;
 
   return (
     <>
       <Splash done={ready} />
+      <HomePage onNavigate={navigate} active={page === "home"} play={ready} onReady={onSceneReady} />
       {ready && (
         <>
-          <HomePage onNavigate={navigate} />
-
-          <PageTransition isVisible={page === "projects"}>
-            <ProjectsPage onBack={goHome} />
-          </PageTransition>
-
-          <PageTransition isVisible={page === "about"}>
-            <AboutPage onBack={goHome} />
-          </PageTransition>
-
-          <PageTransition isVisible={page === "interests"}>
-            <InterestsPage onBack={goHome} />
-          </PageTransition>
-
+          {/* about, interests and projects now live on the café's notes */}
           <PageTransition isVisible={page === "contact"}>
             <ContactPage onBack={goHome} />
           </PageTransition>
