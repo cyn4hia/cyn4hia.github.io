@@ -1,344 +1,209 @@
-import { useState, useEffect } from "react";
-import NavButton from "../components/NavButton";
-import Bubbles from "../components/Bubbles";
-import images from "../assets/images";
-import ContactButton from "../components/ContactButton";
+import { Component, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ITEMS, ITEM_BY_ID } from "../cafe/config";
+import { loadCafeScene } from "../cafe/loadScene";
+import Annotations from "../cafe/ui/Annotations";
+import MenuCard from "../cafe/ui/MenuCard";
+import FocusPanel from "../cafe/ui/FocusPanel";
+import "../cafe/ui/cafe.css";
 
-export default function HomePage({ onNavigate }) {
-  const [heroVis, setHeroVis] = useState(false);
-  const [titleVis, setTitleVis] = useState(false);
-  const [subVis, setSubVis] = useState(false);
-  const [scale, setScale] = useState(Math.min(1, window.innerWidth / 820));
+const PANEL_SPACE = 440 + 56; // note width + its margin
+const NARROW = 760;
+
+/* if WebGL is unavailable the menu card still gets you everywhere */
+class SceneBoundary extends Component {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  componentDidCatch() {
+    this.props.onFail?.();
+  }
+  render() {
+    return this.state.failed ? null : this.props.children;
+  }
+}
+
+function usePrefersReducedMotion() {
+  const query = "(prefers-reduced-motion: reduce)";
+  const [reduced, setReduced] = useState(() => window.matchMedia?.(query).matches ?? false);
+  useEffect(() => {
+    const mq = window.matchMedia?.(query);
+    if (!mq) return undefined;
+    const on = () => setReduced(mq.matches);
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+  return reduced;
+}
+
+function useViewport() {
+  const [vp, setVp] = useState({ w: window.innerWidth, h: window.innerHeight });
+  useEffect(() => {
+    const on = () => setVp({ w: window.innerWidth, h: window.innerHeight });
+    window.addEventListener("resize", on);
+    return () => window.removeEventListener("resize", on);
+  }, []);
+  return vp;
+}
+
+/**
+ * Home: a little home café. The 3D table fills the screen; everything on
+ * it is clickable. Picking something up zooms in on it and slides in a
+ * note card with the way into that part of the site.
+ */
+export default function HomePage({ onNavigate, active = true, play = true, onReady }) {
+  const [Scene, setScene] = useState(null);
+  const [hovered, setHovered] = useState(null);
+  const [focused, setFocused] = useState(null);
+  const [intro, setIntro] = useState(false);
+  const [touched, setTouched] = useState(false);
+  const labelRefs = useRef({});
+  const reducedMotion = usePrefersReducedMotion();
+  const vp = useViewport();
 
   useEffect(() => {
-    setTimeout(() => setHeroVis(true), 200);
-    setTimeout(() => setTitleVis(true), 500);
-    setTimeout(() => setSubVis(true), 900);
+    let alive = true;
+    loadCafeScene().then((m) => alive && setScene(() => m.default));
+    return () => {
+      alive = false;
+    };
   }, []);
 
+  /* first visit: the sketch's labels draw themselves on, then step aside */
   useEffect(() => {
-    const handleResize = () => setScale(Math.min(1, window.innerWidth / 820));
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    if (!play) return undefined;
+    const show = setTimeout(() => setIntro(true), reducedMotion ? 150 : 1900);
+    const hide = setTimeout(() => setIntro(false), reducedMotion ? 4000 : 6600);
+    return () => {
+      clearTimeout(show);
+      clearTimeout(hide);
+    };
+  }, [play, reducedMotion]);
+
+  const hover = useCallback((id) => {
+    setHovered(id);
+    if (id) {
+      setTouched(true);
+      setIntro(false);
+    }
   }, []);
+  const select = useCallback((id) => {
+    setFocused(id);
+    setTouched(true);
+    setIntro(false);
+  }, []);
+  const back = useCallback(() => setFocused(null), []);
+  const step = useCallback((dir) => {
+    setTouched(true);
+    setIntro(false);
+    setFocused((cur) => {
+      const i = ITEMS.findIndex((it) => it.id === cur);
+      if (i < 0) return ITEMS[dir > 0 ? 0 : ITEMS.length - 1].id;
+      return ITEMS[(i + dir + ITEMS.length) % ITEMS.length].id;
+    });
+  }, []);
+  const open = useCallback(
+    (item) => {
+      if (item.href) window.open(item.href, "_blank", "noopener,noreferrer");
+      else onNavigate(item.page);
+    },
+    [onNavigate]
+  );
+
+  /* ← → wander the table, esc steps back (only while home is showing) */
+  useEffect(() => {
+    if (!active) return undefined;
+    const onKey = (e) => {
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        step(1);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        step(-1);
+      } else if (e.key === "Escape") {
+        setFocused(null);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [active, step]);
+
+  const narrow = vp.w <= NARROW;
+  const panelInset = useMemo(
+    () => (narrow ? { x: 0, y: Math.round(vp.h * 0.21) } : { x: Math.round(PANEL_SPACE / 2), y: 0 }),
+    [narrow, vp.h]
+  );
+
+  const visibleIds = useMemo(() => {
+    if (focused || !play) return new Set();
+    if (intro) return new Set(ITEMS.map((it) => it.id));
+    return new Set(hovered ? [hovered] : []);
+  }, [focused, intro, hovered, play]);
 
   return (
-    <div
-      style={{
-        transform: `scale(${scale})`,
-        transformOrigin: "top center",
-      }}
+    <main
+      className={`cafe${hovered ? " is-hovering" : ""}${focused ? " is-focused" : ""}`}
+      aria-label="Cindy's little home café"
     >
-      <div
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
-          padding: 20,
-          background: "#fff",
-          overflow: "hidden",
-        }}
-      >
-      <Bubbles />
-      {/* ── title ── */}
-      <div
-        style={{
-          position: "relative",
-          width: 820,
-          height: 600,
-          opacity: heroVis ? 1 : 0,
-          transform: heroVis ? "scale(1) translateY(0)" : "scale(0.55) translateY(60px)",
-          transition: "all 0.9s cubic-bezier(0.34,1.56,0.64,1)",
-        }}
-      >
-        {/* left of stem */}
-        <span
-          style={{
-            position: "absolute",
-            bottom: "77%",
-            left: "37%",
-            fontFamily: "var(--font-display)",
-            fontSize: 80,
-            fontWeight: 300,
-            color: "var(--text-main)",
-            lineHeight: 1,
-            zIndex: 2,
-            opacity: titleVis ? 1 : 0,
-            transform: titleVis ? "translateY(0) scale(1)" : "translateY(26px) scale(0.7)",
-            transition: "all 0.65s cubic-bezier(0.34,1.56,0.64,1)",
-          }}
-        >
-          Cindy
-        </span>
+      {Scene ? (
+        <SceneBoundary onFail={onReady}>
+          <Scene
+            hovered={hovered}
+            focused={focused}
+            play={play}
+            paused={!active}
+            reducedMotion={reducedMotion}
+            panelInset={panelInset}
+            labelRefs={labelRefs}
+            onHover={hover}
+            onSelect={select}
+            onBackground={back}
+            onReady={onReady}
+          />
+        </SceneBoundary>
+      ) : (
+        <div className="cafe-loading">brewing…</div>
+      )}
+      <div className="cafe-vignette" />
+      <div className="cafe-grain" />
 
-        {/* "s" — right of stem */}
-        <span
-          style={{
-            position: "absolute",
-            bottom: "77%",
-            right: "28%",
-            fontFamily: "var(--font-display)",
-            fontSize: 80,
-            fontWeight: 300,
-            color: "var(--text-main)",
-            lineHeight: 1,
-            zIndex: 2,
-            opacity: titleVis ? 1 : 0,
-            transform: titleVis ? "translateY(0) scale(1)" : "translateY(26px) scale(0.7)",
-            transition: "all 0.65s cubic-bezier(0.34,1.56,0.64,1) 0.12s",
-          }}
-        >
-          s
-        </span>
+      <Annotations labelRefs={labelRefs} visibleIds={visibleIds} />
 
-        {/* Grape bunch — large, overlapping title & subtitle */}
-        <img
-          src={images.bunch}
-          alt="Green grapes"
-          style={{
-            position: "absolute",
-            bottom: "10%",
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: 620,
-            height: "auto",
-            zIndex: 1,
-            animation: "gentle-float 6s ease-in-out infinite",
-          }}
-        />
+      <header className={`cafe-title${focused ? " is-hidden" : ""}`}>
+        <h1>Cindy&rsquo;s</h1>
+        <p>
+          little home café
+          <svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true">
+            <path
+              d="M2 8 C 40 2, 70 11, 104 6 S 170 3, 198 7"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+          <span className="cafe-sparkle" style={{ right: -26, top: -10, fontSize: 22 }}>
+            ✦
+          </span>
+          <span className="cafe-sparkle" style={{ right: -40, top: 12, fontSize: 13, animationDelay: "0.9s" }}>
+            ✦
+          </span>
+        </p>
+      </header>
 
-        {/*the grape leaf which is ' */}
-        <img
-          src={images.leaf}
-          alt="Grape leaf"
-          style={{
-            position: "absolute",
-            bottom: "79%",
-            left: "66%",
-            transform: "translateX(-50%)",
-            width: 90,
-            height: "auto",
-            zIndex: 1,
-            animation: "gentle-float 6s ease-in-out infinite",
-          }}
-        />
+      <MenuCard hidden={Boolean(focused)} focused={focused} onHover={hover} onSelect={select} />
 
-        {/* "green grapes." + "personal web" — lower-right overlap */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: "22%",
-            right: "25%",
-            zIndex: 2,
-            textAlign: "left",
-            opacity: subVis ? 1 : 0,
-            transform: subVis ? "translateY(0) scale(1)" : "translateY(22px) scale(0.85)",
-            transition: "all 0.7s cubic-bezier(0.34,1.56,0.64,1)",
-          }}
-        >
-          <h2
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: 48,
-              fontWeight: 300,
-              color: "var(--text-main)",
-            }}
-          >
-            green grapes.
-          </h2>
-        {/*personal web text */}
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            bottom: "19%",
-            right: "45%",
-            zIndex: 2,
-            textAlign: "left",
-            opacity: subVis ? 1 : 0,
-            transform: subVis ? "translateY(0) scale(1)" : "translateY(22px) scale(0.85)",
-            transition: "all 0.7s cubic-bezier(0.34,1.56,0.64,1)",
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: 15,
-              color: "var(--text-light)",
-              letterSpacing: 2,
-              marginTop: 1,
-            }}
-          >
-            personal web
-          </p>
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            bottom: "7%",
-            right: "60%",
-            zIndex: 2,
-            textAlign: "left",
-            opacity: subVis ? 1 : 0,
-            transform: subVis ? "translateY(0) scale(1)" : "translateY(22px) scale(0.85)",
-            transition: "all 0.7s cubic-bezier(0.34,1.56,0.64,1)",
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: 11,
-              color: "var(--text-light)",
-              letterSpacing: 1,
-              marginTop: 1,
-            }}
-          >
-            contact me!
-          </p>
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            bottom: "8%",
-            right: "70%",
-            zIndex: 2,
-            textAlign: "left",
-            opacity: subVis ? 1 : 0,
-            transform: subVis ? "translateY(0) scale(1)" : "translateY(22px) scale(0.85)",
-            transition: "all 0.7s cubic-bezier(0.34,1.56,0.64,1)",
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: 21,
-              color: "var(--text-light)",
-              letterSpacing: 1,
-              marginTop: 1,
-              transform: "rotateZ(45deg)",
-            }}
-          >
-            ⎯
-          </p>
-        </div>
-
-          {/*neuron */}
-         <div
-          style={{
-            position: "absolute",
-            top: "27%",
-            right: "70%",
-            zIndex: 2,
-            textAlign: "left",
-            opacity: subVis ? 1 : 0,
-            transform: subVis ? "translateY(0) scale(1)" : "translateY(22px) scale(0.85)",
-            transition: "all 0.7s cubic-bezier(0.34,1.56,0.64,1)",
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: 11,
-              color: "var(--text-light)",
-              letterSpacing: 1,
-              marginTop: 1,
-            }}
-          >
-            peek inside my brain!
-          </p>
-        </div>
-
-        <div
-          style={{
-            position: "absolute",
-            top: "30%",
-            right: "69%",
-            zIndex: 2,
-            textAlign: "left",
-            opacity: subVis ? 1 : 0,
-            transform: subVis ? "translateY(0) scale(1)" : "translateY(22px) scale(0.85)",
-            transition: "all 0.7s cubic-bezier(0.34,1.56,0.64,1)",
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: 21,
-              color: "var(--text-light)",
-              letterSpacing: 1,
-              marginTop: 1,
-              transform: "rotateZ(45deg)",
-            }}
-          >
-            ⎯
-          </p>
-        </div>
-
+      <div className={`cafe-hint${touched || focused || !play ? " is-hidden" : ""}`}>
+        ✦ click anything on the table ✦
       </div>
-      <div style={{ position: "relative" }}>
-          <ContactButton           
-            imgSrc={images.contact}
-            imgW={150}
-            imgH={150}
-            onClick={() => onNavigate("contact")}
-            delay={1200}
-            imgX={0}
-            imgY={20}
-          />
-      </div>
-      <div style={{ position: "relative" }}>
-          <ContactButton           
-            imgSrc={images.contact}
-            imgW={150}
-            imgH={150}
-            onClick={() => window.open("https://cyn4hia.github.io/mind/", "_blank")}
-            delay={1200}
-            imgX={-70}
-            imgY={290}
-          />
-      </div>
-        {/* nav */}
-        <nav
-          style={{
-            display: "flex",
-            gap: 50,
-            marginTop: 0,
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
-          <NavButton
-            label="Sweet"
-            subtitle="Projects"
-            imgSrc={images.sweet}
-            imgW={60}
-            imgH={60}
-            onClick={() => onNavigate("projects")}
-            delay={1200}
-          />
-          <NavButton
-            label="Crunchy"
-            subtitle="About Me"
-            imgSrc={images.crunchy}
-            imgW={75}
-            imgH={62}
-            onClick={() => onNavigate("about")}
-            delay={1400}
-          />
-          <NavButton
-            label="Cold"
-            subtitle="Interests"
-            imgSrc={images.cold}
-            imgW={60}
-            imgH={60}
-            onClick={() => onNavigate("interests")}
-            delay={1600}
-          />
-        </nav>
-      </div>
-    </div>
+
+      <FocusPanel
+        item={focused ? ITEM_BY_ID[focused] : null}
+        onOpen={open}
+        onClose={back}
+        onPrev={() => step(-1)}
+        onNext={() => step(1)}
+      />
+    </main>
   );
 }

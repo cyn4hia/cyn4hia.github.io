@@ -7,12 +7,9 @@
 const base = import.meta.env.BASE_URL;
 
 const images = {
-  bunch: `${base}images/bunch.png`,
-  leaf: `${base}images/leaf.png`,
   sweet: `${base}images/sweet.png`,
   crunchy: `${base}images/crunchy.png`,
   cold: `${base}images/cold.png`,
-  contact: `${base}images/contact.png`,
   // drop any of these into public/images and the matching contact
   // profile card picks it up automatically (placeholders until then)
   avatarLinkedin: `${base}images/avatar-linkedin.png`,
