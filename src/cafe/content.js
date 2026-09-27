@@ -13,14 +13,13 @@ export const ABOUT = [
   },
   {
     label: "Social Media",
-    detail: "Earned over 1 million views across 3 accounts on TikTok",
-    subtext:
-      "Over 1k Followers and 400k views on a gaming account\nOver 1k followers and 400k views on a study motivation account",
+    detail: "Reached over 40 million views on TikTok",
+    subtext: "Motion Graphics + editing content! A little hobby of mine",
   },
   {
     label: "Video games",
     detail: "I'm bad at every game I play",
-    subtext: "Extremely hardstuck diamond in Teamfight Tactics",
+    subtext: "But at least I always look good in game!",
   },
   {
     label: "Fun Fact",
@@ -76,6 +75,13 @@ export const PROJECTS = [
     link: "https://cyn4hia.github.io/",
   },
   {
+    name: "SoftMotion",
+    desc: "Using Meta's Sam3 and OpenCV to segment any 2 UI elements and motion morph from one to the other",
+    price: 7.26,
+    tags: ["SAM#", "CV", "Motion Graphics"],
+    link: null,
+  },
+  {
     name: "TFT Profile Card",
     desc: "My dynamic TFT history + profile details for my Github README",
     price: 2.26,
@@ -83,11 +89,11 @@ export const PROJECTS = [
     link: "https://github.com/cyn4hia",
   },
   {
-    name: "Royale High Halo Predictor",
-    desc: "Using LLMs to predict ingame price values for Royale High Roblox game (In Progress)",
-    price: 4.25,
+    name: "Leetie",
+    desc: "Made my own custom algo practice site with fun features",
+    price: 7.26,
     tags: ["React", "Claude API", "JavaScript"],
-    link: null,
+    link: "https://cyn4hia.github.io/leetie",
   },
   {
     name: "TFT Flashcards",
