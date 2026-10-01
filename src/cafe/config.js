@@ -3,10 +3,10 @@
  * so the table is ~1 m wide and ~74 cm tall.
  *
  * What picking an item up shows: `content` puts that section right on its
- * note ("about", "interests", or the projects "receipt"; the words live in
- * content.js); otherwise the note links out via `page` (an in-app page id)
- * or `href` (an external link). Positions are [x, z] on the table top; the
- * camera is in front of the table looking toward -z.
+ * note ("about", "interests", "contact", "portfolio", or the projects
+ * "receipt"; the words live in content.js); otherwise the note links out
+ * via `href` (an external link). Positions are [x, z] on the table top;
+ * the camera is in front of the table looking toward -z.
  */
 
 export const TABLE = { width: 10.4, depth: 5.4, height: 7.4, thickness: 0.36 };
@@ -57,10 +57,7 @@ export const ITEMS = [
     label: "empty glasses",
     title: "Contact",
     tagline: "one's for you",
-    blurb:
-      "Two glasses, one of them for you. Pull up a chair; I'd love to grab a matcha and chat.",
-    cta: "say hi",
-    page: "contact",
+    content: "contact",
     position: [-2.45, -1.55],
     rotation: 0,
     anchor: [0.4, 1.35, 0],
@@ -86,12 +83,9 @@ export const ITEMS = [
   {
     id: "kettle",
     label: "electric kettle",
-    title: "Mind",
+    title: "Content",
     tagline: "what's brewing",
-    blurb:
-      "Always warm, occasionally whistling. Peek inside my head: notes, thoughts, and half-steeped ideas.",
-    cta: "peek inside",
-    href: "https://cyn4hia.github.io/mind/",
+    content: "portfolio",
     position: [2.9, -0.3],
     rotation: -0.12,
     anchor: [0.1, 2.0, 0],

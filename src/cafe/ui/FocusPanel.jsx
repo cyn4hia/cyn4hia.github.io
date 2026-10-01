@@ -1,15 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { crumple } from "./crumple";
-import { AboutFacts, InterestBlend } from "./NoteContent";
+import { AboutFacts, ContactCards, InterestBlend, PortfolioReel } from "./NoteContent";
 import Receipt from "./Receipt";
 
 /* items whose content lives right on the note (see `content` in config) */
-const BODIES = { about: AboutFacts, interests: InterestBlend };
+const BODIES = {
+  about: AboutFacts,
+  interests: InterestBlend,
+  contact: ContactCards,
+  portfolio: PortfolioReel,
+};
 
 /**
  * The note that slides in beside a focused item. It either holds that
- * part of the site itself (about, interests, the projects receipt) or
- * offers the way in (contact, mind). Keeps rendering the last item while
+ * part of the site itself (about, interests, contact, the content
+ * portfolio, the projects receipt) or offers a way out to another site
+ * (an item with `href` and a `cta`). Keeps rendering the last item while
  * it animates out so the note doesn't blank mid-exit. The ✕ crumples it
  * into a ball and tosses it; other exits (esc, clicking away) slide.
  */
@@ -82,7 +88,7 @@ export default function FocusPanel({ item, onOpen, onClose, onPrev, onNext }) {
       ref={panel}
       key={`${shown.id}-${round}`}
       tabIndex={-1}
-      className={`cafe-panel${isReceipt ? " cafe-panel--receipt" : ""}${Body ? " cafe-panel--full" : ""}${leaving ? " is-leaving" : ""}`}
+      className={`cafe-panel${isReceipt ? " cafe-panel--receipt" : ""}${shown.content === "contact" ? " cafe-panel--slim" : ""}${Body ? " cafe-panel--full" : ""}${leaving ? " is-leaving" : ""}`}
       aria-label={`${shown.label}: ${shown.title}`}
     >
       <button type="button" className="cafe-panel-close" onClick={crumpleAway} aria-label="Back to the table">

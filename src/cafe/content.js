@@ -1,8 +1,33 @@
 /*
  * What's written on the notes (and the receipt) you get when you pick
- * something up off the table. Moved here from the old About, Interests
- * and Projects pages.
+ * something up off the table. Moved here from the old About, Interests,
+ * Projects and Contact pages.
  */
+
+/* the empty glasses' note: email up top, then a profile card for each
+   place to find me (the cards are in ui/ProfileCards.jsx) */
+export const CONTACT = {
+  name: "Cindy Zhou",
+  email: "zhou.cy@northeastern.edu",
+  location: "Boston, Massachusetts",
+  linkedin: {
+    url: "https://linkedin.com/in/cindy-zhou4",
+    handle: "linkedin.com/in/cindy-zhou4",
+    headline: "CS & Economics @ Northeastern University",
+  },
+  github: {
+    url: "https://github.com/cyn4hia",
+    handle: "cyn4hia",
+    bio: "I code",
+  },
+  discord: {
+    username: "perceiving",
+    url: "https://discord.com/users/804359414982901800",
+    about: "Green grapes are my niche interest 🍵",
+    status: " ",
+  },
+  signoff: "Two glasses, one of them for you. Pull up a chair; I'd love to grab a matcha and chat.",
+};
 
 /* the matcha tools' note */
 export const ABOUT = [
@@ -53,6 +78,31 @@ export const INTERESTS = [
   { label: "Economics & Tech", detail: "The intersection between economic efficiency and technology" },
   { label: "Computer Vision", detail: "Interested in Computer Vision research and application" },
 ];
+
+/* the kettle's note: my content creation portfolio. Numbers mirror the
+   portfolio's data (it shows them rounded down with a "+"); the featured
+   clips are in the same order as there, so each one opens straight to it */
+export const PORTFOLIO = {
+  url: "https://cyn4hia.github.io/portfolio/",
+  account: "main",
+  handle: "@soft",
+  name: "Editing Account",
+  bio: "after effects design and creation",
+  stats: { followers: 2200, likes: 500000, views: 40000000 },
+  highlights: ["Motion graphics", "20 million views in 1 month", "Diverse content"],
+  brands: ["Anthropic"],
+  featured: [
+    { title: "Fable 5 Relaunch Campaign", cover: "portfolioFable5", duration: "0:13", views: 38000000 },
+    { title: "Controversial 'Best' AI Model", cover: "portfolioMog", duration: "0:17", views: 1100000 },
+    { title: "Weathering Edit", cover: "portfolioWeathering", duration: "0:12", views: 600000 },
+    { title: "The Art of Anthropic Model Naming", cover: "portfolioNaming", duration: "0:24", views: 200000 },
+  ],
+  collections: [
+    { id: "motion", label: "motion", clips: 5 },
+    { id: "anime", label: "anime", clips: 5 },
+    { id: "ai talk", label: "ai talk", clips: 5 },
+  ],
+};
 
 /* the chawan's receipt */
 export const RECEIPT = {

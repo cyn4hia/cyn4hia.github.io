@@ -648,7 +648,9 @@
 }
 
 /* ── interests: the tin's ingredient list ──────────────────────────── */
-.cafe-blend-label {
+.cafe-blend-label,
+.cafe-contact-label,
+.cafe-reel-label {
   margin: 18px 0 10px;
   padding-bottom: 6px;
   border-bottom: 1.5px solid var(--cafe-ink);
@@ -916,6 +918,301 @@
   opacity: var(--crumple-ink, 1);
 }
 
+/* ── contact: the empty glasses' slim note ───────────────────────── */
+.cafe-panel--slim {
+  /* narrower than the other notes, so the glasses and the rest of the
+     table stay in view, with a little room around the profile cards */
+  --note-w: 440px;
+}
+.cafe-contact-email {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 10px 10px 10px 14px;
+  border: 1.5px dashed rgba(79, 109, 42, 0.4);
+  border-radius: 8px;
+  background: rgba(143, 176, 96, 0.09);
+}
+.cafe-contact-email a {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: 19px;
+  color: var(--cafe-ink);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  user-select: text;
+  -webkit-user-select: text;
+}
+.cafe-contact-email a:hover {
+  color: var(--cafe-matcha-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.cafe-contact-email button {
+  flex-shrink: 0;
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--cafe-matcha-deep);
+  color: #fbf6ec;
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
+}
+.cafe-contact-email button:hover {
+  transform: scale(1.05);
+  background: #5d7f33;
+}
+/* same label as the tin's "ingredients", minus the rule underneath */
+.cafe-contact-label,
+.cafe-reel-label {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+/* the three profile cards, stacked in one column (they're 290px wide) */
+.cafe-contact-cards {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  padding-top: 4px;
+}
+.cafe-contact-signoff {
+  margin-top: 16px;
+  font-family: var(--cafe-hand);
+  font-size: 19px;
+  line-height: 1.25;
+  color: var(--cafe-matcha-deep);
+  transform: rotate(-1deg);
+}
+
+/* ── content: the kettle's portfolio note ───────────────────────────── */
+.cafe-reel-profile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 16px;
+}
+.cafe-reel-avatar {
+  width: 52px;
+  height: 52px;
+  border: 2px solid #fffdf8;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px var(--cafe-line), 0 4px 10px -4px rgba(60, 38, 18, 0.4);
+}
+.cafe-reel-handle {
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1;
+  color: var(--cafe-ink);
+}
+.cafe-reel-handle span {
+  margin-left: 6px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--cafe-matcha);
+}
+.cafe-reel-account {
+  margin-top: 5px;
+  font-size: 10px;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: var(--cafe-ink-soft);
+}
+.cafe-reel-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 16px;
+  padding: 10px 0;
+  border-top: 1px dashed var(--cafe-line);
+  border-bottom: 1px dashed var(--cafe-line);
+  text-align: center;
+}
+/* the number reads first, its label underneath */
+.cafe-reel-stats > div {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.cafe-reel-stats dd {
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 1;
+  color: var(--cafe-ink);
+}
+.cafe-reel-stats dt {
+  margin-top: 4px;
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--cafe-ink-soft);
+}
+.cafe-reel-bio {
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #5c4e42;
+}
+.cafe-reel-bio b {
+  font-weight: 500;
+  color: var(--cafe-matcha-deep);
+}
+.cafe-reel-tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+.cafe-reel-tags li {
+  padding: 4px 10px;
+  border: 1px dashed rgba(79, 109, 42, 0.4);
+  border-radius: 999px;
+  background: rgba(143, 176, 96, 0.09);
+  font-size: 11.5px;
+  color: var(--cafe-matcha-deep);
+}
+.cafe-reel-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 14px;
+}
+/* each featured clip is a little photo taped to the note, slightly askew */
+.cafe-reel-clip {
+  display: block;
+  padding: 6px 6px 9px;
+  border: 1px solid var(--cafe-line);
+  border-radius: 3px;
+  background: #fffdf8;
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 6px 14px -8px rgba(60, 38, 18, 0.45);
+  transform: rotate(var(--tilt));
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+  animation: cafe-reel-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: calc(0.2s + var(--i) * 0.07s);
+}
+@keyframes cafe-reel-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.92) rotate(var(--tilt)); }
+}
+.cafe-reel-clip:hover {
+  transform: translateY(-3px) rotate(0deg);
+  box-shadow: 0 14px 22px -12px rgba(60, 38, 18, 0.55);
+}
+.cafe-reel-clip:focus-visible,
+.cafe-reel-collection:focus-visible {
+  outline: 2px solid var(--cafe-matcha);
+  outline-offset: 3px;
+}
+.cafe-reel-thumb {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #2a2622;
+}
+.cafe-reel-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.cafe-reel-clip:hover .cafe-reel-thumb img {
+  transform: scale(1.05);
+}
+/* a play button fades in over the cover on hover */
+.cafe-reel-thumb::after {
+  content: "▶";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.25);
+  font-size: 20px;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.cafe-reel-clip:hover .cafe-reel-thumb::after {
+  opacity: 1;
+}
+.cafe-reel-num,
+.cafe-reel-dur {
+  position: absolute;
+  z-index: 1;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+.cafe-reel-num {
+  top: 5px;
+  left: 7px;
+}
+.cafe-reel-dur {
+  right: 7px;
+  bottom: 5px;
+}
+.cafe-reel-title {
+  display: block;
+  margin-top: 7px;
+  font-family: var(--font-display);
+  font-size: 16.5px;
+  line-height: 1.2;
+  color: var(--cafe-ink);
+}
+.cafe-reel-views {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--cafe-ink-soft);
+}
+.cafe-reel-collections {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.cafe-reel-collection {
+  display: block;
+  padding: 10px 12px;
+  border: 1.5px dashed rgba(79, 109, 42, 0.4);
+  border-radius: 8px;
+  background: rgba(143, 176, 96, 0.09);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
+}
+.cafe-reel-collection:hover {
+  transform: translateY(-2px);
+  background: rgba(143, 176, 96, 0.18);
+}
+.cafe-reel-collection-name {
+  display: block;
+  font-family: var(--cafe-hand);
+  font-size: 23px;
+  line-height: 1;
+  color: var(--cafe-matcha-deep);
+}
+.cafe-reel-collection-count {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--cafe-ink-soft);
+}
+.cafe-reel-cta {
+  margin-top: 22px;
+  text-decoration: none;
+}
+
 /* ── small screens (full mobile pass comes later) ────────────────── */
 @media (max-width: 760px) {
   .cafe-menu {
@@ -982,5 +1279,8 @@
   .cafe-panel,
   .cafe-panel.is-leaving {
     animation-duration: 0.01s;
+  }
+  .cafe-reel-clip {
+    animation: none;
   }
 }

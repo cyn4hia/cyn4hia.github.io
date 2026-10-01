@@ -1,30 +1,11 @@
 import { useState, useEffect } from "react";
-import BackButton from "../components/BackButton";
-import Bubbles from "../components/Bubbles";
-import images from "../assets/images";
+import images from "../../assets/images";
+import { CONTACT as PROFILE } from "../content";
 
-/* ── edit your profile info here ─────────────────────────────── */
-const PROFILE = {
-  name: "Cindy Zhou",
-  email: "zhou.cy@northeastern.edu",
-  location: "Boston, Massachusetts",
-  linkedin: {
-    url: "https://linkedin.com/in/cindy-zhou4",
-    handle: "linkedin.com/in/cindy-zhou4",
-    headline: "CS & Economics @ Northeastern University",
-  },
-  github: {
-    url: "https://github.com/cyn4hia",
-    handle: "cyn4hia",
-    bio: "I code",
-  },
-  discord: {
-    username: "perceiving",
-    url: "https://discord.com/users/804359414982901800",
-    about: "Green grapes are my niche interest 🍵",
-    status: " ",
-  },
-};
+/*
+ * The LinkedIn, GitHub and Discord profile previews from the old Contact
+ * page, unchanged. They now sit on the empty glasses' note.
+ */
 
 /* avatar with grape-gradient "CZ" placeholder until its image exists */
 function Avatar({ src, size, ring = "#fff", ringWidth = 3 }) {
@@ -160,7 +141,7 @@ function CardShell({ delay, href, onClick, children, footer, footerColor }) {
 }
 
 /* ── LinkedIn profile preview ────────────────────────────────── */
-function LinkedInCard({ delay }) {
+export function LinkedInCard({ delay }) {
   return (
     <CardShell delay={delay} href={PROFILE.linkedin.url} footer={PROFILE.linkedin.handle} footerColor="#8a8a8a">
       <div style={{ background: "#fff" }}>
@@ -216,7 +197,7 @@ function LinkedInCard({ delay }) {
 }
 
 /* ── GitHub profile preview (live stats when the API allows) ──── */
-function GitHubCard({ delay }) {
+export function GitHubCard({ delay }) {
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
@@ -296,7 +277,7 @@ function GitHubCard({ delay }) {
 }
 
 /* ── Discord profile preview ─────────────────────────────────── */
-function DiscordCard({ delay }) {
+export function DiscordCard({ delay }) {
   return (
     <CardShell delay={delay} href={PROFILE.discord.url} footer={`discord · @${PROFILE.discord.username}`} footerColor="#949ba4">
       <div style={{ background: "#111214", position: "relative", fontFamily: "'DM Sans', sans-serif" }}>
@@ -365,163 +346,5 @@ function DiscordCard({ delay }) {
         </div>
       </div>
     </CardShell>
-  );
-}
-
-/* ── the original grape, popping in beside the heading ───────── */
-function HeroGrape() {
-  return (
-    <div style={{ position: "relative", flexShrink: 0, width: 110, height: 110 }}>
-      {/* pop ring burst */}
-      <div
-        style={{
-          position: "absolute",
-          left: "50%",
-          top: "50%",
-          width: 100,
-          height: 100,
-          marginLeft: -50,
-          marginTop: -50,
-          borderRadius: "50%",
-          border: "2px solid rgba(141,184,96,0.55)",
-          animation: "popRing 0.65s ease-out 620ms",
-          opacity: 0,
-        }}
-      />
-      <div style={{ animation: "grapePop 0.7s cubic-bezier(0.34,1.56,0.64,1) 500ms backwards" }}>
-        <img
-          src={images.cold}
-          alt="Green grape"
-          style={{
-            width: 110,
-            height: 110,
-            objectFit: "contain",
-            display: "block",
-            animation: "grapeIdle 4s ease-in-out 1300ms infinite",
-          }}
-        />
-      </div>
-    </div>
-  );
-}
-
-/* ── page ─────────────────────────────────────────────────────── */
-export default function ContactPage({ onBack }) {
-  const [emailCopied, setEmailCopied] = useState(false);
-
-  const copyEmail = () => {
-    navigator.clipboard?.writeText(PROFILE.email).catch(() => {});
-    setEmailCopied(true);
-    setTimeout(() => setEmailCopied(false), 1800);
-  };
-
-  return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "radial-gradient(1000px circle at 50% 0%, #f6f9ef, #ffffff 65%)",
-        padding: "70px 32px 60px",
-        position: "relative",
-      }}
-    >
-      <Bubbles />
-      <BackButton onClick={onBack} />
-
-      <div style={{ maxWidth: 1000, margin: "0 auto", position: "relative" }}>
-        {/* header */}
-        <div style={{ textAlign: "center", marginBottom: 36 }}>
-          <p
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 11,
-              color: "#6a9a3a",
-              letterSpacing: 4,
-              textTransform: "uppercase",
-              fontWeight: 700,
-              animation: "riseIn 0.6s cubic-bezier(0.22,1,0.36,1) 150ms both",
-            }}
-          >
-            Get In Touch
-          </p>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 18,
-              marginTop: 10,
-            }}
-          >
-            <h1
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: "clamp(34px, 5vw, 52px)",
-                color: "#5a5a5a",
-                fontWeight: 300,
-                margin: 0,
-                animation: "riseIn 0.7s cubic-bezier(0.22,1,0.36,1) 280ms both",
-              }}
-            >
-              Where you can find me.
-            </h1>
-            <HeroGrape />
-          </div>
-
-          {/* email chip */}
-          <button
-            onClick={copyEmail}
-            style={{
-              marginTop: 18,
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: emailCopied ? "rgba(141,184,96,0.18)" : "rgba(255,255,255,0.9)",
-              border: "1px solid rgba(141,184,96,0.35)",
-              borderRadius: 999,
-              padding: "9px 22px",
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 13,
-              color: "#5a8a2a",
-              cursor: "pointer",
-              boxShadow: "0 4px 16px rgba(90,110,50,0.10)",
-              transition: "background 0.25s ease",
-              animation: "grapePop 0.6s cubic-bezier(0.34,1.56,0.64,1) 420ms both",
-            }}
-          >
-            ✉ {emailCopied ? "email copied! ✓" : PROFILE.email}
-          </button>
-        </div>
-
-        {/* profile preview cards */}
-        <div
-          style={{
-            display: "flex",
-            gap: 26,
-            justifyContent: "center",
-            alignItems: "flex-start",
-            flexWrap: "wrap",
-          }}
-        >
-          <LinkedInCard delay={550} />
-          <GitHubCard delay={700} />
-          <DiscordCard delay={850} />
-        </div>
-
-        <p
-          style={{
-            textAlign: "center",
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 12.5,
-            color: "#bbb",
-            fontStyle: "italic",
-            marginTop: 44,
-            animation: "riseIn 0.7s ease 1200ms both",
-          }}
-        >
-          I'm always just one green grape away. Haha
-        </p>
-      </div>
-
-    </div>
   );
 }

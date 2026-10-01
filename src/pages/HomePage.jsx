@@ -10,7 +10,8 @@ const NARROW = 760;
 /* mirrors .cafe-panel in cafe.css: the note is --note-w wide and centred
    around 68% of the screen width (never closer than 20px to the edge) */
 const NOTE_W = 540;
-const RECEIPT_W = 470;
+/* narrower notes: the projects receipt and the slim contact note */
+const NOTE_W_BY_CONTENT = { receipt: 470, contact: 440 };
 const noteBox = (vw, w) => {
   const width = Math.min(w, vw - 40);
   const right = Math.max(20, 0.32 * vw - w / 2);
@@ -59,12 +60,13 @@ function useViewport() {
  * it is clickable. Picking something up zooms in on it and slides in a
  * note card with the way into that part of the site.
  */
-export default function HomePage({ onNavigate, active = true, play = true, onReady }) {
+export default function HomePage({ active = true, play = true, onReady }) {
   const [Scene, setScene] = useState(null);
   const [hovered, setHovered] = useState(null);
   const [focused, setFocused] = useState(null);
   const [intro, setIntro] = useState(false);
   const [touched, setTouched] = useState(false);
+  const [settled, setSettled] = useState(false); // every item has popped in
   const labelRefs = useRef({});
   const reducedMotion = usePrefersReducedMotion();
   const vp = useViewport();
@@ -101,6 +103,7 @@ export default function HomePage({ onNavigate, active = true, play = true, onRea
     setIntro(false);
   }, []);
   const back = useCallback(() => setFocused(null), []);
+  const settle = useCallback(() => setSettled(true), []);
   const step = useCallback((dir) => {
     setTouched(true);
     setIntro(false);
@@ -110,13 +113,9 @@ export default function HomePage({ onNavigate, active = true, play = true, onRea
       return ITEMS[(i + dir + ITEMS.length) % ITEMS.length].id;
     });
   }, []);
-  const open = useCallback(
-    (item) => {
-      if (item.href) window.open(item.href, "_blank", "noopener,noreferrer");
-      else onNavigate(item.page);
-    },
-    [onNavigate]
-  );
+  const open = useCallback((item) => {
+    if (item.href) window.open(item.href, "_blank", "noopener,noreferrer");
+  }, []);
 
   /* ← → wander the table, esc steps back (only while home is showing) */
   useEffect(() => {
@@ -139,22 +138,24 @@ export default function HomePage({ onNavigate, active = true, play = true, onRea
   const narrow = vp.w <= NARROW;
   /* shift the focused item into the free space beside the note, and pull
      the camera back a touch when that space is tight so it stays in view */
-  const receipt = focused && ITEM_BY_ID[focused]?.content === "receipt";
+  const noteW = NOTE_W_BY_CONTENT[focused && ITEM_BY_ID[focused]?.content] ?? NOTE_W;
   const panelInset = useMemo(() => {
     if (narrow) return { x: 0, y: Math.round(vp.h * 0.21), zoom: 1 };
-    const note = noteBox(vp.w, receipt ? RECEIPT_W : NOTE_W);
+    const note = noteBox(vp.w, noteW);
     return {
       x: Math.round((note.right + note.width) / 2),
       y: 0,
       zoom: Math.min(1.4, Math.max(1, (0.62 * vp.w) / note.free)),
     };
-  }, [narrow, vp.w, vp.h, receipt]);
+  }, [narrow, vp.w, vp.h, noteW]);
 
+  /* no arrows while things are still dropping onto the table: a hover
+     mid-intro waits until everything has landed */
   const visibleIds = useMemo(() => {
-    if (focused || !play) return new Set();
+    if (focused || !settled) return new Set();
     if (intro) return new Set(ITEMS.map((it) => it.id));
     return new Set(hovered ? [hovered] : []);
-  }, [focused, intro, hovered, play]);
+  }, [focused, intro, hovered, settled]);
 
   return (
     <main
@@ -175,6 +176,7 @@ export default function HomePage({ onNavigate, active = true, play = true, onRea
             onSelect={select}
             onBackground={back}
             onReady={onReady}
+            onSettled={settle}
           />
         </SceneBoundary>
       ) : (

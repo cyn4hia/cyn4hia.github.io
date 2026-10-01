@@ -17,6 +17,7 @@ const GRAVITY = -26;
  * - idle "nudge" hops so visitors notice things are clickable
  * - a soft contact shadow that fades as the item leaves the table
  * Children read `anim.current.{hover, focus}` (0..1) for their own tricks.
+ * `onLanded` fires once, when the intro drop first comes to rest.
  */
 export default function Interactive({
   item,
@@ -30,6 +31,7 @@ export default function Interactive({
   anim,
   onHover,
   onSelect,
+  onLanded,
   children,
 }) {
   const lifter = useRef();
@@ -41,6 +43,7 @@ export default function Interactive({
     dropY: 1.6 + index * 0.15,
     dropV: 0,
     landed: false,
+    arrived: false, // first landing reported (nudge hops land again later)
     lift: sp(),
     squash: sp(),
     tiltX: sp(),
@@ -120,6 +123,10 @@ export default function Interactive({
       }
     } else {
       s.scale = approach(s.scale, 1, 9, dt);
+    }
+    if (s.landed && !s.arrived) {
+      s.arrived = true;
+      onLanded?.(item.id);
     }
 
     /* idle nudge: a little hop so the table feels alive */

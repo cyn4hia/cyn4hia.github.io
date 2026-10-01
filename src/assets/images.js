@@ -16,6 +16,12 @@ const images = {
   menuCup: `${base}images/menu/cup.webp`,
   menuCat: `${base}images/menu/cat.webp`,
   menuBunny: `${base}images/menu/bunny.webp`,
+  // small copies of the content portfolio's covers, for the kettle's note
+  portfolioAvatar: `${base}images/portfolio/pfp.jpg`,
+  portfolioFable5: `${base}images/portfolio/fable5.jpg`,
+  portfolioMog: `${base}images/portfolio/mog.jpg`,
+  portfolioWeathering: `${base}images/portfolio/weathering.jpg`,
+  portfolioNaming: `${base}images/portfolio/naming.jpg`,
   // drop any of these into public/images and the matching contact
   // profile card picks it up automatically (placeholders until then)
   avatarLinkedin: `${base}images/avatar-linkedin.png`,

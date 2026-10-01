@@ -1,4 +1,4 @@
-import { memo, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import Room, { WALL_COLOR } from "./Room";
@@ -246,9 +246,19 @@ function Scene({
   onSelect,
   onReady,
   onDpr,
+  onSettled,
   dragRef,
 }) {
   const nudgeRef = useRef({ id: null, at: 0 });
+  /* the intro is over once every item has dropped onto the table */
+  const landed = useRef(new Set());
+  const land = useCallback(
+    (id) => {
+      landed.current.add(id);
+      if (landed.current.size === ITEMS.length) onSettled?.();
+    },
+    [onSettled]
+  );
   const anims = useMemo(
     () => Object.fromEntries(ITEMS.map((it) => [it.id, { current: { hover: 0, focus: 0, y: 0 } }])),
     []
@@ -283,6 +293,7 @@ function Scene({
             anim={anims[item.id]}
             onHover={onHover}
             onSelect={onSelect}
+            onLanded={land}
           >
             <Model anim={anims[item.id]} />
           </Interactive>
@@ -311,6 +322,7 @@ function CafeScene({
   onSelect,
   onBackground,
   onReady,
+  onSettled,
 }) {
   const dragRef = useRef({ angle: 0, vel: 0, active: false, lastX: 0, moved: 0 });
   const fallbackLabels = useRef({});
@@ -346,6 +358,7 @@ function CafeScene({
         onSelect={onSelect ?? (() => {})}
         onReady={onReady}
         onDpr={setDpr}
+        onSettled={onSettled}
         dragRef={dragRef}
       />
     </Canvas>

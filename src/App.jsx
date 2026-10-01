@@ -1,7 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import PageTransition from "./components/PageTransition";
 import HomePage from "./pages/HomePage";
-import ContactPage from "./pages/ContactPage";
 import { imagesReady } from "./assets/preload";
 import { loadCafeScene } from "./cafe/loadScene";
 
@@ -61,18 +59,15 @@ function Splash({ done }) {
 }
 
 /**
- * Root app component.
- * Manages which page is active and renders transitions. The home café is
- * mounted behind the splash so its 3D scene can compile; the splash lifts
- * once images are decoded and the first frames are drawn (max 8s).
+ * Root app component. The whole site is the home café now (every section
+ * lives on a note on the table). The café is mounted behind the splash so
+ * its 3D scene can compile; the splash lifts once images are decoded and
+ * the first frames are drawn (max 8s).
  */
 export default function App() {
-  const [page, setPage] = useState("home");
   const [imagesDone, setImagesDone] = useState(false);
   const [sceneDone, setSceneDone] = useState(false);
   const [timedOut, setTimedOut] = useState(false);
-  const navigate = useCallback((p) => setPage(p), []);
-  const goHome = useCallback(() => setPage("home"), []);
   const onSceneReady = useCallback(() => setSceneDone(true), []);
 
   useEffect(() => {
@@ -93,15 +88,7 @@ export default function App() {
   return (
     <>
       <Splash done={ready} />
-      <HomePage onNavigate={navigate} active={page === "home"} play={ready} onReady={onSceneReady} />
-      {ready && (
-        <>
-          {/* about, interests and projects now live on the café's notes */}
-          <PageTransition isVisible={page === "contact"}>
-            <ContactPage onBack={goHome} />
-          </PageTransition>
-        </>
-      )}
+      <HomePage play={ready} onReady={onSceneReady} />
     </>
   );
 }
