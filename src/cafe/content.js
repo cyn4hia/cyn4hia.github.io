@@ -42,11 +42,6 @@ export const ABOUT = [
     subtext: "Motion Graphics + editing content! A little hobby of mine",
   },
   {
-    label: "Video games",
-    detail: "I'm bad at every game I play",
-    subtext: "But at least I always look good in game!",
-  },
-  {
     label: "Fun Fact",
     detail: "I have a matcha addiction",
     subtext: "Specifically obsessed with Marukyu Koyamaen's Isuzu",
