@@ -8,6 +8,7 @@
   --cafe-matcha-deep: #4f6d2a;
   --cafe-line: rgba(58, 46, 37, 0.14);
   --cafe-hand: "Caveat", "Segoe Print", cursive;
+  --cafe-note-hand: "Kalam", "Caveat", "Segoe Print", cursive; /* neater: heads each note */
 
   position: fixed;
   inset: 0;
@@ -506,8 +507,9 @@
   color: var(--cafe-ink);
 }
 .cafe-panel-kicker {
-  font-family: var(--cafe-hand);
-  font-size: 26px;
+  font-family: var(--cafe-note-hand);
+  font-size: 21px;
+  line-height: 1.3;
   color: var(--cafe-matcha-deep);
   transform: rotate(-2deg);
   transform-origin: left;
@@ -754,9 +756,9 @@
   text-align: center;
 }
 .cafe-receipt-cafe {
-  font-family: var(--cafe-hand);
-  font-size: 22px;
-  line-height: 1;
+  font-family: var(--cafe-note-hand);
+  font-size: 18px;
+  line-height: 1.2;
   color: var(--cafe-matcha-deep);
 }
 .cafe-receipt-head h2 {

@@ -27,8 +27,6 @@ export const smoothstep = (a, b, x) => {
 
 export const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
-export const easeOutBack = (t, s = 1.6) => 1 + (s + 1) * Math.pow(t - 1, 3) + s * Math.pow(t - 1, 2);
-
 /** exponential approach, frame-rate independent */
 export const approach = (current, target, rate, dt) =>
   current + (target - current) * (1 - Math.exp(-rate * dt));

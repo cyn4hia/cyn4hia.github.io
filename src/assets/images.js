@@ -7,9 +7,6 @@
 const base = import.meta.env.BASE_URL;
 
 const images = {
-  sweet: `${base}images/sweet.png`,
-  crunchy: `${base}images/crunchy.png`,
-  cold: `${base}images/cold.png`,
   // hand-drawn doodles for the café menu (black strokes on transparent,
   // used as CSS masks so the menu can colour them)
   menuLogo: `${base}images/menu/logo.webp`,

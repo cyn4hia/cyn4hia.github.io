@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { getMaterials } from "../materials";
 import { latheArc, roundedProfile } from "../geometry";
-import { clamp01, sp, spring } from "../anim";
+import { clamp01 } from "../anim";
 
 const noRaycast = () => null;
 const SPACING = 0.78;
@@ -157,7 +157,7 @@ export default function Glasses({ anim }) {
   const fill = useRef(0);
   const clink = useRef(0);
   const t = useRef(0);
-  const st = useRef({ was: false, focusT: 0, fillS: sp() });
+  const st = useRef({ was: false, focusT: 0 });
 
   useFrame((state, rawDt) => {
     const dt = Math.min(rawDt, 1 / 30);
