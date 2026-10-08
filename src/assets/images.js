@@ -7,12 +7,10 @@
 const base = import.meta.env.BASE_URL;
 
 const images = {
-  // hand-drawn doodles for the café menu (black strokes on transparent,
-  // used as CSS masks so the menu can colour them)
-  menuLogo: `${base}images/menu/logo.webp`,
-  menuCup: `${base}images/menu/cup.webp`,
+  // the café menu: Cindy's drawing for the front, and a doodle (black
+  // strokes on transparent, used as a CSS mask) for the back
+  menu: `${base}images/menu/menu.webp`,
   menuCat: `${base}images/menu/cat.webp`,
-  menuBunny: `${base}images/menu/bunny.webp`,
   // small copies of the content portfolio's covers, for the kettle's note
   portfolioAvatar: `${base}images/portfolio/pfp.jpg`,
   portfolioFable5: `${base}images/portfolio/fable5.jpg`,

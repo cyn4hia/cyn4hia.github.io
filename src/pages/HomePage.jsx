@@ -103,6 +103,10 @@ export default function HomePage({ active = true, play = true, onReady }) {
     setIntro(false);
   }, []);
   const back = useCallback(() => setFocused(null), []);
+  const readMenu = useCallback(() => {
+    setTouched(true);
+    setIntro(false);
+  }, []);
   const settle = useCallback(() => setSettled(true), []);
   const step = useCallback((dir) => {
     setTouched(true);
@@ -209,7 +213,14 @@ export default function HomePage({ active = true, play = true, onReady }) {
         </p>
       </header>
 
-      <MenuCard hidden={Boolean(focused)} focused={focused} onHover={hover} onSelect={select} />
+      <MenuCard
+        hidden={Boolean(focused)}
+        focused={focused}
+        reducedMotion={reducedMotion}
+        onHover={hover}
+        onSelect={select}
+        onOpen={readMenu}
+      />
 
       <div className={`cafe-hint${touched || focused || !play ? " is-hidden" : ""}`}>
         ✦ click anything on the table ✦
