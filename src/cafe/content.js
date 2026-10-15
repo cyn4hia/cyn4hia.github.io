@@ -67,7 +67,7 @@ export const INTERESTS = [
   },
   {
     label: "CS education",
-    detail: "Making CS education more accessible to young students interested in the field.",
+    detail: "Making CS education more accessible to Northeastern students through media and workshops",
   },
   { label: "Design", detail: "UI/UX, creative coding, making things look pretty." },
   { label: "Economics & Tech", detail: "The intersection between economic efficiency and technology" },
@@ -113,11 +113,18 @@ export const RECEIPT = {
 
 export const PROJECTS = [
   {
-    name: "Grapes",
-    desc: "Personal portfolio website (you're on it!)",
-    price: 3.26,
-    tags: ["React", "CSS/HTML"],
-    link: "https://cyn4hia.github.io/",
+    name: "SoftPlugins",
+    desc: "My own After Effects plugins, free for everyone: one-click eases, Apple-style text animations, and Discord Rich Presence for AE",
+    price: 7.26,
+    tags: ["ExtendScript", "After Effects", "Motion Graphics"],
+    link: "https://github.com/cyn4hia/softplugins",
+  },
+  {
+    name: "SearchNEU",
+    desc: "Building the graduation planner for Northeastern's one stop shop for course info, with Sandbox",
+    price: 9.26,
+    tags: ["TypeScript", "React", "Next.js"],
+    link: "https://github.com/sandboxnu/searchneu",
   },
   {
     name: "SoftMotion",

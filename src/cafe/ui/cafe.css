@@ -228,13 +228,16 @@
   pointer-events: auto;
 }
 
-/* the paper and its shadow share a footprint; MenuCard sets their transforms */
+/* the paper and its shadow share a footprint; MenuCard sets their
+   transforms (and the paper's will-change, only while it's moving) */
 .cafe-menu,
 .cafe-menu-shadow {
   position: absolute;
   left: 0;
   top: 0;
   transform-origin: 50% 50%;
+}
+.cafe-menu-shadow {
   will-change: transform;
 }
 .cafe-menu-shadow > span {
@@ -341,10 +344,10 @@
 .cafe-menu-help {
   position: absolute;
   left: 50%;
-  bottom: max(8px, 1.6vh);
+  bottom: max(5px, 0.9vh);
   transform: translateX(-50%);
   font-family: var(--cafe-hand);
-  font-size: 21px;
+  font-size: 18px;
   line-height: 1;
   white-space: nowrap;
   color: #fbf6ec;

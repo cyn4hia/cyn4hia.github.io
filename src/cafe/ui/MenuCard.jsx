@@ -23,7 +23,7 @@ const SPRINGS = {
   rx: [130, 0.45],
   ry: [130, 0.45],
   lift: [120, 0.9],
-  slosh: [50, 0.12],
+  slosh: [50, 0.15],
   fill: [14, 1],
   drain: [90, 1],
 };
@@ -44,13 +44,13 @@ function spring(st, key, target, dt, calm, [k, z] = SPRINGS[key]) {
 function measure() {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
-  let H = Math.min(vh * 0.86, 1040);
+  let H = Math.min(vh * 0.9, 1100);
   let W = H * ART.aspect;
   if (W > vw * 0.92) {
     W = vw * 0.92;
     H = W / ART.aspect;
   }
-  const restW = Math.min(clamp(vw * 0.135, 160, 230), vh * 0.36 * ART.aspect);
+  const restW = Math.min(clamp(vw * 0.21, 220, 330), vh * 0.47 * ART.aspect);
   return { vw, vh, W, H, rest: restW / W };
 }
 
@@ -202,15 +202,23 @@ export default function MenuCard({ hidden, focused, reducedMotion = false, onHov
     };
   };
 
-  const draw = () => {
+  const draw = (moving = true) => {
     const st = sim.current;
     const Lc = L.current;
     const x = (st.x - Lc.W / 2).toFixed(2);
     const y = (st.y - Lc.H / 2).toFixed(2);
-    if (card.current) {
-      card.current.style.transform =
-        `translate3d(${x}px, ${y}px, 0) perspective(${Math.round(Lc.W * st.s * 2.6)}px) ` +
-        `rotateX(${st.rx.toFixed(2)}deg) rotateY(${st.ry.toFixed(2)}deg) rotate(${st.r.toFixed(2)}deg) scale(${st.s.toFixed(4)})`;
+    const el = card.current;
+    if (el) {
+      /* still and flat, it gets a plain 2D transform and no will-change, so
+         the browser redraws it sharp at the size it's shown (a 3D
+         transform or will-change can leave it drawn at another size and
+         stretched, which looks blurry) */
+      const tilted = Math.abs(st.rx) > 0.01 || Math.abs(st.ry) > 0.01;
+      const tilt3d = tilted
+        ? `perspective(${Math.round(Lc.W * st.s * 2.6)}px) rotateX(${st.rx.toFixed(2)}deg) rotateY(${st.ry.toFixed(2)}deg) `
+        : "";
+      el.style.transform = `translate(${x}px, ${y}px) ${tilt3d}rotate(${st.r.toFixed(2)}deg) scale(${st.s.toFixed(4)})`;
+      el.style.willChange = moving ? "transform" : "auto";
     }
     if (shadow.current) {
       /* lifted paper casts a softer shadow further away */
@@ -337,31 +345,39 @@ export default function MenuCard({ hidden, focused, reducedMotion = false, onHov
     st.lastX = st.x;
     st.lastVx = vx;
 
-    const fillGoal = p.showing ? 0 : CUP.empty;
-    const settled =
+    /* the paper and the drink settle separately: the paper can be still
+       (and drawn sharp) while the drink is still sloshing */
+    const still =
       !d &&
       !slide.current &&
-      p.want === p.showing &&
-      PAPER.every((k) => Math.abs(g[k] - st[k]) < EPS[k] && Math.abs(st.v[k]) < EPS[k] * 4) &&
-      Math.abs(st.slosh - (m.calm ? 0 : -(st.r - g.r))) < EPS.slosh &&
-      Math.abs(st.v.slosh) < EPS.slosh * 4 &&
-      Math.abs(st.fill - fillGoal) < EPS.fill &&
-      Math.abs(st.v.fill) < EPS.fill * 4;
-
-    if (settled) {
+      PAPER.every((k) => Math.abs(g[k] - st[k]) < EPS[k] && Math.abs(st.v[k]) < EPS[k] * 4);
+    if (still) {
       for (const k of PAPER) {
         st[k] = g[k];
         st.v[k] = 0;
       }
+    }
+    const fillGoal = p.showing ? 0 : CUP.empty;
+    const dry = !p.showing && !p.want; // nothing in the cup to slosh
+    const calmDrink =
+      p.want === p.showing &&
+      Math.abs(st.fill - fillGoal) < EPS.fill &&
+      Math.abs(st.v.fill) < EPS.fill * 4 &&
+      (dry || (Math.abs(st.slosh - (m.calm ? 0 : -(st.r - g.r))) < EPS.slosh && Math.abs(st.v.slosh) < EPS.slosh * 4));
+    if (calmDrink) {
       st.slosh = 0;
       st.v.slosh = 0;
       st.fill = fillGoal;
       st.v.fill = 0;
+    }
+
+    const settled = still && calmDrink;
+    if (settled) {
       st.ax = 0;
       st.lastVx = 0;
       last.current = 0;
     }
-    draw();
+    draw(!still);
     if (!settled) wake();
   };
   frameRef.current = frame;
@@ -558,7 +574,7 @@ export default function MenuCard({ hidden, focused, reducedMotion = false, onHov
     face?.querySelector(target === "first" ? "button" : ".cafe-menu-corner")?.focus({ preventScroll: true });
   }, [open, flipped]);
 
-  useLayoutEffect(draw, [layout]);
+  useLayoutEffect(() => draw(false), [layout]);
   useEffect(
     () => () => {
       cancelAnimationFrame(raf.current);
