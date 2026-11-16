@@ -26,7 +26,7 @@ export const CONTACT = {
     about: "Green grapes are my niche interest 🍵",
     status: " ",
   },
-  signoff: "Two glasses, one of them for you. Pull up a chair; I'd love to grab a matcha and chat.",
+  signoff: "Contact me for a matcha chat!",
 };
 
 /* the matcha tools' note */
@@ -113,18 +113,18 @@ export const RECEIPT = {
 
 export const PROJECTS = [
   {
+    name: "graduateNU",
+    desc: "Developer @ Sandbox Northeastern",
+    price: 9.26,
+    tags: ["TypeScript", "React", "Next.js"],
+    link: "https://github.com/sandboxnu/searchneu",
+  },
+  {
     name: "SoftPlugins",
     desc: "My own After Effects plugins, free for everyone: one-click eases, Apple-style text animations, and Discord Rich Presence for AE",
     price: 7.26,
     tags: ["ExtendScript", "After Effects", "Motion Graphics"],
     link: "https://github.com/cyn4hia/softplugins",
-  },
-  {
-    name: "SearchNEU",
-    desc: "Building the graduation planner for Northeastern's one stop shop for course info, with Sandbox",
-    price: 9.26,
-    tags: ["TypeScript", "React", "Next.js"],
-    link: "https://github.com/sandboxnu/searchneu",
   },
   {
     name: "SoftMotion",
